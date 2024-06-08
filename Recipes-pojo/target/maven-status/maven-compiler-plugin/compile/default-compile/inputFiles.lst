@@ -1,0 +1,16 @@
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/entity/Recipe.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/dto/UserDTO.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/dto/RecipeDTO.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/vo/UserLoginVO.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/dto/UserLoginDTO.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/vo/FavoriteVO.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/dto/UserProfileUpdateDTO.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/entity/FavoriteId.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/dto/UserRegisterDTO.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/dto/RecipePageQueryDTO.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/dto/FavoriteDTO.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/vo/RecipeVO.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/vo/UserReportVO.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/entity/User.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/entity/Favorite.java
+/Users/jememalum/Downloads/backend/Recipes-pojo/src/main/java/com/recipes/vo/UserVO.java

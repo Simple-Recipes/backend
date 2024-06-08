@@ -4,6 +4,7 @@ import com.recipes.dao.FavoriteDAO;
 import com.recipes.dto.FavoriteDTO;
 import com.recipes.entity.Favorite;
 import com.recipes.entity.FavoriteId;
+import com.recipes.exception.FavoriteNotFoundException;
 import com.recipes.mapper.FavoriteMapper;
 import com.recipes.result.Result;
 import com.recipes.service.FavoriteService;
@@ -41,7 +42,7 @@ public class FavoriteServiceImpl implements FavoriteService {
             favoriteDAO.deleteFavorite(favorite.getId());
             return Result.success();
         } else {
-            return Result.error("Favorite not found");
+            throw new FavoriteNotFoundException();
         }
     }
 }
