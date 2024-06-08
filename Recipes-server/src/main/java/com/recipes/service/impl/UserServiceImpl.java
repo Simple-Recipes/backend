@@ -1,6 +1,5 @@
 package com.recipes.service.impl;
 
-import com.recipes.context.UserContext;
 import com.recipes.dao.UserDAO;
 import com.recipes.dto.UserLoginDTO;
 import com.recipes.dto.UserRegisterDTO;
@@ -8,7 +7,9 @@ import com.recipes.dto.UserDTO;
 import com.recipes.entity.User;
 import com.recipes.exception.AccountNotFoundException;
 import com.recipes.exception.PasswordErrorException;
+import com.recipes.mapper.UserMapper;
 import com.recipes.service.UserService;
+import com.recipes.dto.UserProfileUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private HttpSession session;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public UserDTO register(UserRegisterDTO userRegisterDTO) {
@@ -48,21 +54,22 @@ public class UserServiceImpl implements UserService {
             throw new PasswordErrorException("Password error");
         }
 
-        // 登录成功后设置用户上下文
-        UserContext.setCurrentUserId(user.getId());
-
         return toDTO(user);
     }
 
     @Override
-    public UserDTO getCurrentUser() {
-        Long userId = UserContext.getCurrentUserId();
-        if (userId == null) {
-            throw new AccountNotFoundException("User not logged in");
+    public UserDTO getCurrentUser(Long userId) {
+        if (userId != null) {
+            User user = userDAO.findUserById(userId);
+            if (user != null) {
+                return toDTO(user);
+            } else {
+                throw new AccountNotFoundException("User not found");
+            }
         }
-        User user = userDAO.findUserById(userId);
-        return toDTO(user);
+        throw new AccountNotFoundException("User not logged in");
     }
+
 
     @Override
     public UserDTO getUserById(Long id) {
@@ -71,16 +78,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateProfile(UserDTO userDTO) {
-        User user = userDAO.findUserById(userDTO.getId());
-        if (user != null) {
-            user.setUsername(userDTO.getUsername());
-            user.setEmail(userDTO.getEmail());
-            user.setAvatar(userDTO.getAvatar());
-            userDAO.updateUser(user);
-            return toDTO(user);
+    public UserDTO updateProfile(Long userId, UserProfileUpdateDTO userProfileUpdateDTO) {
+        User existingUser = userDAO.findUserById(userId);
+        if (existingUser == null) {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
         }
-        throw new AccountNotFoundException("User not found");
+
+        existingUser.setUsername(userProfileUpdateDTO.getUsername());
+        existingUser.setEmail(userProfileUpdateDTO.getEmail());
+        existingUser.setAvatar(userProfileUpdateDTO.getAvatar());
+        // Assume password should be updated too if provided
+        if (userProfileUpdateDTO.getPassword() != null && !userProfileUpdateDTO.getPassword().isEmpty()) {
+            existingUser.setPassword(userProfileUpdateDTO.getPassword());
+        }
+
+        userDAO.updateUser(existingUser);
+
+        return userMapper.toDto(existingUser);
     }
 
     @Override

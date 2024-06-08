@@ -1,7 +1,7 @@
 package com.recipes.exception;
 
 /**
- * 业务异常
+ * Base Exception
  */
 public class BaseException extends RuntimeException {
 

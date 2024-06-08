@@ -1,7 +1,7 @@
 package com.recipes.constant;
 
 /**
- * 信息提示常量类
+ * Message constant class
  */
 public class MessageConstant {
 

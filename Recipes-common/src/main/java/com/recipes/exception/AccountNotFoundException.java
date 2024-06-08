@@ -1,7 +1,7 @@
 package com.recipes.exception;
 
 /**
- * 账号不存在异常
+ * Account Doesn't Exist Exception
  */
 public class AccountNotFoundException extends BaseException {
 

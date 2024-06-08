@@ -1,10 +1,17 @@
 package com.recipes.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 @Data
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "Recipe data transfer object")
 public class RecipeDTO implements Serializable {
 

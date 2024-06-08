@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     /**
-     * 捕获业务异常
+     * Global Exception Handler
      * @param ex
      * @return
      */

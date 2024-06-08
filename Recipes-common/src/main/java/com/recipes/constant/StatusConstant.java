@@ -1,7 +1,7 @@
 package com.recipes.constant;
 
 /**
- * 状态常量，启用或者禁用
+ * Status constants, enabled or disabled
  */
 public class StatusConstant {
 
