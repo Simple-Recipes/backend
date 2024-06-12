@@ -46,7 +46,8 @@ public class UserDAO {
     public User findUserByResetToken(String resetToken) {
         // Placeholder method, replace with actual query to find user by reset token
         // This assumes a resetToken field exists in the User entity
-        List<User> users = entityManager.createQuery("SELECT u FROM User u WHERE u.resetToken = :resetToken", User.class)
+        //
+        List<User> users = entityManager.createQuery("SELECT u FROM User u WHERE u.password = :resetToken", User.class)
                 .setParameter("resetToken", resetToken)
                 .getResultList();
         return users.isEmpty() ? null : users.get(0);

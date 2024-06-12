@@ -14,7 +14,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 
 /**
- * jwt令牌校验的拦截器
+ * Interceptor for JWT token validation
  */
 @Component
 @Slf4j
@@ -23,10 +23,8 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
     @Autowired
     private JwtProperties jwtProperties;
 
-
-
     /**
-     * 校验jwt
+     * Validate JWT
      *
      * @param request
      * @param response
@@ -36,25 +34,25 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        //判断当前拦截到的是Controller的方法还是其他资源
+        // Determine if the current interception is a Controller method or other resource
         if (!(handler instanceof HandlerMethod)) {
-            //当前拦截到的不是动态方法，直接放行
+            // If the current interception is not a dynamic method, allow direct access
             return true;
         }
 
-        //1、从请求头中获取令牌
+        // 1. Get the token from the request header
         String token = request.getHeader(jwtProperties.getAdminTokenName());
 
-        //2、校验令牌
+        // 2. Validate the token
         try {
-            log.info("jwt校验:{}", token);
+            log.info("JWT validation: {}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
             Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
-            log.info("当前员工id：", empId);
-            //3、通过，放行
+            log.info("Current employee ID: {}", empId);
+            // 3. Pass the validation, allow access
             return true;
         } catch (Exception ex) {
-            //4、不通过，响应401状态码
+            // 4. Fail validation, respond with 401 status code
             response.setStatus(401);
             return false;
         }

@@ -1,7 +1,8 @@
 package com.recipes.constant;
 
 /**
- * 公共字段自动填充相关常量
+ * Public field auto-population related constants
+ *
  */
 public class AutoFillConstant {
     /**

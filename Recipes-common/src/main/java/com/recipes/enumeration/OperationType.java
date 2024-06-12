@@ -1,7 +1,7 @@
 package com.recipes.enumeration;
 
 /**
- * 数据库操作类型
+ * Database operation types
  */
 public enum OperationType {
 

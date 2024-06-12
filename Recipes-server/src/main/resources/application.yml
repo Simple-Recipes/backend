@@ -44,14 +44,13 @@ logging:
 recipes:
   jwt:
     adminSecretKey: myAdminSecretKey123456
-    adminTtl: 3600000  # 1 hour
+    adminTtl: 7200000  # 2 hour
     adminTokenName: Admin-Token
     userSecretKey: myUserSecretKey123456
-    userTtl: 3600000  # 1 hour
+    userTtl: 7200000  # 2 hour
     userTokenName: User-Token
 
 
-# springdoc-openapi项目配置
 # Springdoc OpenAPI configuration
 springdoc:
   swagger-ui:

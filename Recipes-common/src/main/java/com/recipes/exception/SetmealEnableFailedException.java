@@ -1,7 +1,7 @@
 package com.recipes.exception;
 
 /**
- * 套餐启用失败异常
+ * Setmeal Enable Failed Exception
  */
 public class SetmealEnableFailedException extends BaseException {
 

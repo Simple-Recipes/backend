@@ -1,13 +1,20 @@
 package com.recipes.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.NoArgsConstructor;
+
 /**
  * UserLoginDTO represents the data transfer object for transferring user login information.
  */
 @Data
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "User login data transfer object")
 public class UserLoginDTO implements Serializable {
 

@@ -1,7 +1,7 @@
 package com.recipes.constant;
 
 /**
- * 密码常量
+ * Password Constants
  */
 public class PasswordConstant {
 
