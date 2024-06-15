@@ -21,7 +21,8 @@
     {
       "name": "recipes.jwt.admin-ttl",
       "type": "java.lang.Long",
-      "sourceType": "com.recipes.properties.JwtProperties"
+      "sourceType": "com.recipes.properties.JwtProperties",
+      "defaultValue": 0
     },
     {
       "name": "recipes.jwt.user-secret-key",
@@ -37,7 +38,8 @@
     {
       "name": "recipes.jwt.user-ttl",
       "type": "java.lang.Long",
-      "sourceType": "com.recipes.properties.JwtProperties"
+      "sourceType": "com.recipes.properties.JwtProperties",
+      "defaultValue": 0
     }
   ],
   "hints": []

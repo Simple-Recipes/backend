@@ -17,6 +17,7 @@ com/recipes/context/BaseContext.class
 com/recipes/exception/OrderBusinessException.class
 com/recipes/constant/AutoFillConstant.class
 com/recipes/exception/AddressBookBusinessException.class
+com/recipes/exception/FavoriteNotFoundException.class
 com/recipes/result/PageResult.class
 com/recipes/exception/SetmealEnableFailedException.class
 com/recipes/result/Result.class
