@@ -86,12 +86,21 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Result<Void> deleteRecipe(Long recipeId) {
-        if (recipeDAO.existsById(recipeId)) {
+    public Result<List<RecipeDTO>> getUserRecipes(Long userId) {
+        List<Recipe> recipes = recipeDAO.findRecipesByUserId(userId);
+        List<RecipeDTO> recipeDTOs = recipes.stream()
+                .map(recipeMapper::toDto)
+                .collect(Collectors.toList());
+        return Result.success(recipeDTOs);
+    }
+
+    @Override
+    public Result<Void> deleteRecipe(Long userId, Long recipeId) {
+        if (recipeDAO.existsByIdAndUserId(recipeId, userId)) {
             recipeDAO.deleteRecipe(recipeId);
             return Result.success();
         } else {
-            return Result.error("Recipe not found");
+            return Result.error("Recipe not found or you do not have permission to delete this recipe");
         }
     }
 }

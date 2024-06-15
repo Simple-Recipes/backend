@@ -75,13 +75,22 @@ public class RecipeController {
         return recipeService.publishRecipe(recipeDTO);
     }
 
+    @GetMapping("/user-recipes")
+    @Operation(summary = "Get user's recipes", description = "Get all recipes published by the user")
+    public Result<List<RecipeDTO>> getUserRecipes() {
+        Long userId = (Long) session.getAttribute("userId");
+        log.info("Getting recipes for user with id={}", userId);
+        return recipeService.getUserRecipes(userId);
+    }
+
     @DeleteMapping("/delete")
     @Operation(summary = "Delete a recipe", description = "Deletes a published recipe")
     public Result<Void> deleteRecipe(@RequestParam Long recipeId) {
         Long userId = (Long) session.getAttribute("userId");
         log.info("Deleting recipe: userId={}, recipeId={}", userId, recipeId);
-        return recipeService.deleteRecipe(recipeId);
+        return recipeService.deleteRecipe(userId, recipeId);
     }
+
 
     //
     @PostMapping("/comment")

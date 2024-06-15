@@ -2,11 +2,10 @@ package com.recipes.dao;
 
 import com.recipes.dto.RecipePageQueryDTO;
 import com.recipes.entity.Recipe;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import java.util.List;
 
@@ -38,9 +37,10 @@ public class RecipeDAO {
         }
     }
 
-    public boolean existsById(Long id) {
-        return entityManager.createQuery("SELECT COUNT(r) FROM Recipe r WHERE r.id = :id", Long.class)
+    public boolean existsByIdAndUserId(Long id, Long userId) {
+        return entityManager.createQuery("SELECT COUNT(r) FROM Recipe r WHERE r.id = :id AND r.user.id = :userId", Long.class)
                 .setParameter("id", id)
+                .setParameter("userId", userId)
                 .getSingleResult() > 0;
     }
 
@@ -54,7 +54,6 @@ public class RecipeDAO {
                 .setMaxResults(10)
                 .getResultList();
     }
-
 
     public List<Recipe> searchRecipes(RecipePageQueryDTO queryDTO, String sortBy, String tagName) {
         StringBuilder jpql = new StringBuilder("SELECT r FROM Recipe r WHERE 1=1");
@@ -109,4 +108,9 @@ public class RecipeDAO {
         return query.getSingleResult();
     }
 
+    public List<Recipe> findRecipesByUserId(Long userId) {
+        return entityManager.createQuery("SELECT r FROM Recipe r WHERE r.user.id = :userId", Recipe.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
 }
