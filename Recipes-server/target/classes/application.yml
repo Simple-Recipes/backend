@@ -36,10 +36,17 @@ security:
 
 logging:
   level:
+    org:
+      springframework:
+        jdbc:
+          support:
+            org.springframework.jdbc.support.JdbcTransactionManager: debug
     com:
       recipes:
         service: info
         controller: info
+        repository: info
+
 
 recipes:
   jwt:
