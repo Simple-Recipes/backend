@@ -17,10 +17,10 @@ public class FavoriteDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description="User ID")
+//    @Schema(description="User ID")
     private Long userId;
 
-    @Schema(description="Recipe ID")
+    @Schema(description="Recipe ID", required = true)
     private Long recipeId;
 
     @Schema(description="Favorite Creation Time")

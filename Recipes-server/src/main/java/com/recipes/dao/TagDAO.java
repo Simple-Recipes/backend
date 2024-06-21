@@ -32,4 +32,13 @@ public class TagDAO {
             entityManager.remove(tag);
         }
     }
+    public List<Tag> findAllByUserId(Long userId) {
+        return entityManager.createQuery(
+                        "SELECT t FROM Tag t JOIN RecipeTag rt ON t.id = rt.tag.id JOIN Recipe r ON rt.recipe.id = r.id WHERE r.user.id = :userId", Tag.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+    public Tag findTagById(Long id) {
+        return entityManager.find(Tag.class, id);
+    }
 }

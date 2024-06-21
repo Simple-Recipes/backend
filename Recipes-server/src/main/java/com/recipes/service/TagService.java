@@ -9,4 +9,5 @@ public interface TagService {
     Result<List<TagDTO>> getAllTags();
     Result<TagDTO> addTag(TagDTO tagDTO);
     Result<Void> deleteTag(Long id);
+    Result<List<TagDTO>> getAllMyTags(Long userId) ;
 }

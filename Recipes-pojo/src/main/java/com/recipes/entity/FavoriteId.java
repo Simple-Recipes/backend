@@ -19,6 +19,7 @@ public class FavoriteId implements Serializable {
         this.userId = userId;
         this.recipeId = recipeId;
     }
+
     public Long getUserId() {
         return userId;
     }
@@ -41,7 +42,7 @@ public class FavoriteId implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         FavoriteId that = (FavoriteId) o;
         return Objects.equals(userId, that.userId) &&
-               Objects.equals(recipeId, that.recipeId);
+                Objects.equals(recipeId, that.recipeId);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.recipes.controller;
 
 import com.recipes.dto.FavoriteDTO;
+import com.recipes.dto.RecipeDTO;
 import com.recipes.result.Result;
 import com.recipes.service.FavoriteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/favorites")
@@ -32,16 +33,16 @@ public class FavoriteController {
     @PostMapping("/add")
     @Operation(summary = "Add recipe to favorites", description = "Adds a recipe to the user's favorite list")
     public ResponseEntity<Result<FavoriteDTO>> addToFavorites(
-            @Parameter(description = "Request data containing recipeId", required = true)
-            @RequestBody Map<String, Long> request) {
+            @Parameter(description = "Favorite data transfer object", required = true)
+            @RequestBody FavoriteDTO favoriteDTO) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) {
             log.error("User is not logged in");
             return new ResponseEntity<>(Result.error("User is not logged in"), HttpStatus.UNAUTHORIZED);
         }
-        Long recipeId = request.get("recipeId");
-        log.info("Adding recipe to favorites: userId={}, recipeId={}", userId, recipeId);
-        Result<FavoriteDTO> result = favoriteService.addToFavorites(userId, recipeId);
+        favoriteDTO.setUserId(userId);
+        log.info("Adding recipe to favorites: userId={}, recipeId={}", userId, favoriteDTO.getRecipeId());
+        Result<FavoriteDTO> result = favoriteService.addToFavorites(favoriteDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -56,8 +57,19 @@ public class FavoriteController {
             return new ResponseEntity<>(Result.error("User is not logged in"), HttpStatus.UNAUTHORIZED);
         }
         log.info("Removing recipe from favorites: userId={}, recipeId={}", userId, recipeId);
-        Result<Void> result = favoriteService.removeFromFavorites(userId, recipeId);
+        FavoriteDTO favoriteDTO = new FavoriteDTO();
+        favoriteDTO.setUserId(userId);
+        favoriteDTO.setRecipeId(recipeId);
+        Result<Void> result = favoriteService.removeFromFavorites(favoriteDTO);
         HttpStatus status = result.getCode() == 1 ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(result, status);
+    }
+
+    @GetMapping("/getAllMyFavorites")
+    @Operation(summary = "Get all my favorites", description = "Get all recipes favorited by the user")
+    public Result<List<RecipeDTO>> getAllMyFavorites() {
+        Long userId = (Long) session.getAttribute("userId");
+        log.info("Getting all favorites for user with id={}", userId);
+        return favoriteService.getAllMyFavorites(userId);
     }
 }

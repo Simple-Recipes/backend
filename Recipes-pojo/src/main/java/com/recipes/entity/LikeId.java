@@ -1,23 +1,52 @@
 package com.recipes.entity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Objects;
+import jakarta.persistence.Embeddable;
+
 @Embeddable
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class LikeId implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "user_id")
     private Long userId;
-
-    @Column(name = "recipe_id")
     private Long recipeId;
+
+    public LikeId() {
+    }
+
+    public LikeId(Long userId, Long recipeId) {
+        this.userId = userId;
+        this.recipeId = recipeId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(Long recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LikeId that = (LikeId) o;
+        return Objects.equals(userId, that.userId) &&
+                Objects.equals(recipeId, that.recipeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, recipeId);
+    }
 }

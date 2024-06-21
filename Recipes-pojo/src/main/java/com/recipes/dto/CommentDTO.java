@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -17,20 +18,20 @@ public class CommentDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "Comment ID")
+    @Schema(description = "The unique ID of the comment")
     private Long id;
 
-    @Schema(description = "Recipe ID", required = true)
+    @Schema(description = "The ID of the recipe", required = true)
     private Long recipeId;
 
-    @Schema(description = "User ID", required = true)
+    @Schema(description = "The ID of the user")
     private Long userId;
 
-    @Schema(description = "Comment content", required = true)
+    @Schema(description = "The content of the comment", required = true)
     private String content;
 
-    @Schema(description = "Creation time")
-    private String createTime;
+    @Schema(description = "The creation time of the comment")
+    private LocalDateTime createTime;
 }
 
 

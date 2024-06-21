@@ -36,6 +36,10 @@ public class RecipeDAO {
             entityManager.remove(recipe);
         }
     }
+    @Transactional
+    public void deleteRecipe(Recipe recipe) {
+        entityManager.remove(recipe);
+    }
 
     public boolean existsByIdAndUserId(Long id, Long userId) {
         return entityManager.createQuery("SELECT COUNT(r) FROM Recipe r WHERE r.id = :id AND r.user.id = :userId", Long.class)

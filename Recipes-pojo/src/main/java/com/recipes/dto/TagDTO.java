@@ -17,7 +17,7 @@ public class TagDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "Tag ID")
+//    @Schema(description = "Tag ID")
     private Long id;
 
     @Schema(description = "Tag name", required = true)

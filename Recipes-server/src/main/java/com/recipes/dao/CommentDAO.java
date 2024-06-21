@@ -1,8 +1,6 @@
 package com.recipes.dao;
 
 import com.recipes.entity.Comment;
-import com.recipes.entity.Like;
-import com.recipes.entity.Tag;
 import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.EntityManager;
@@ -21,12 +19,27 @@ public class CommentDAO {
         entityManager.persist(comment);
     }
 
+    @Transactional
+    public void deleteComment(Long commentId) {
+        Comment comment = entityManager.find(Comment.class, commentId);
+        if (comment != null) {
+            entityManager.remove(comment);
+        }
+    }
+
+    public Comment findCommentById(Long commentId) {
+        return entityManager.find(Comment.class, commentId);
+    }
+
     public List<Comment> findCommentsByRecipeId(Long recipeId) {
-        String jpql = "SELECT c FROM Comment c WHERE c.recipe.id = :recipeId";
-        return entityManager.createQuery(jpql, Comment.class)
-                            .setParameter("recipeId", recipeId)
-                            .getResultList();
+        return entityManager.createQuery("SELECT c FROM Comment c WHERE c.recipe.id = :recipeId", Comment.class)
+                .setParameter("recipeId", recipeId)
+                .getResultList();
+    }
+
+    public List<Comment> findCommentsByUserId(Long userId) {
+        return entityManager.createQuery("SELECT c FROM Comment c WHERE c.user.id = :userId", Comment.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 }
-
-

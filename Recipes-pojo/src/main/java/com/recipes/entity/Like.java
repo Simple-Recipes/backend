@@ -22,9 +22,35 @@ public class Like implements Serializable {
 
     @ManyToOne
     @MapsId("userId")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
     @MapsId("recipeId")
+    @JoinColumn(name = "recipe_id", nullable = false)
     private Recipe recipe;
+
+    public LikeId getId() {
+        return id;
+    }
+
+    public void setId(LikeId id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
 }

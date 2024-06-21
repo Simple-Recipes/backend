@@ -1,12 +1,13 @@
 package com.recipes.dao;
 
-
 import com.recipes.entity.Like;
+import com.recipes.entity.LikeId;
 import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class LikeDAO {
@@ -20,19 +21,24 @@ public class LikeDAO {
     }
 
     @Transactional
-    public void deleteLike(Like like) {
-        String jpql = "DELETE FROM Like l WHERE l.user.id = :userId AND l.recipe.id = :recipeId";
-        entityManager.createQuery(jpql)
-                     .setParameter("userId", like.getUser().getId())
-                     .setParameter("recipeId", like.getRecipe().getId())
-                     .executeUpdate();
+    public void deleteLike(LikeId likeId) {
+        Like like = entityManager.find(Like.class, likeId);
+        if (like != null) {
+            entityManager.remove(like);
+        }
     }
 
     public int countLikesByRecipeId(Long recipeId) {
-        String jpql = "SELECT COUNT(l) FROM Like l WHERE l.recipe.id = :recipeId";
-        return ((Long) entityManager.createQuery(jpql)
-                                    .setParameter("recipeId", recipeId)
-                                    .getSingleResult()).intValue();
+        String query = "SELECT COUNT(l) FROM Like l WHERE l.recipe.id = :recipeId";
+        return ((Number) entityManager.createQuery(query)
+                .setParameter("recipeId", recipeId)
+                .getSingleResult()).intValue();
+    }
+
+    public List<Like> findAllByUserId(Long userId) {
+        String query = "SELECT l FROM Like l WHERE l.user.id = :userId";
+        return entityManager.createQuery(query, Like.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 }
-

@@ -9,9 +9,6 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * Represents a favorite relationship between a user and a recipe in the recipe application.
- */
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,7 +20,7 @@ public class Favorite implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private FavoriteId id;
+    private FavoriteId id = new FavoriteId();
 
     @ManyToOne
     @MapsId("userId")

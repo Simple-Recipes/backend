@@ -1,12 +1,15 @@
 package com.recipes.entity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.*;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,4 +26,8 @@ public class Tag implements Serializable {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private Set<RecipeTag> recipeTags = new HashSet<>();
 }

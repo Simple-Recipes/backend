@@ -1,13 +1,11 @@
 package com.recipes.mapper;
 
 import com.recipes.dto.CommentDTO;
-import com.recipes.dto.LikeDTO;
-import com.recipes.dto.TagDTO;
 import com.recipes.entity.Comment;
-import com.recipes.entity.Like;
-import com.recipes.entity.Tag;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
@@ -20,7 +18,8 @@ public interface CommentMapper {
     @Mapping(source = "recipeId", target = "recipe.id")
     @Mapping(source = "userId", target = "user.id")
     Comment toEntity(CommentDTO commentDTO);
+
+    List<CommentDTO> toDtoList(List<Comment> comments);
+
+    List<Comment> toEntityList(List<CommentDTO> commentDTOs);
 }
-
-
-

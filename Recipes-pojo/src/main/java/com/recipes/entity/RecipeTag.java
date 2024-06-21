@@ -29,4 +29,3 @@ public class RecipeTag implements Serializable {
     @JoinColumn(name = "tag_id", nullable = false)
     private Tag tag;
 }
-

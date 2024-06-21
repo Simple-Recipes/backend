@@ -14,5 +14,6 @@ public interface RecipeService {
     Result<RecipeDTO> publishRecipe(RecipeDTO recipeDTO);
 
     Result<List<RecipeDTO>> getUserRecipes(Long userId);
+    Result<List<RecipeDTO>> getAllMyRecipes(Long userId);
     Result<Void> deleteRecipe(Long userId, Long recipeId);
 }

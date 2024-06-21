@@ -36,7 +36,7 @@
         <springfox-boot-starter>3.0.0</springfox-boot-starter>
         <springdoc-openapi-ui>1.6.9</springdoc-openapi-ui>
         <mysql-connector-java>8.0.29</mysql-connector-java>
-        <mapstruct>1.5.3.Final</mapstruct>
+        <mapstruct>1.5.5.Final</mapstruct>
         <hibernate-core>6.2.7.Final</hibernate-core>
     </properties>
     <dependencies>
@@ -48,6 +48,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -138,6 +146,7 @@
                 <artifactId>hibernate-core</artifactId>
                 <version>${hibernate-core}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
     <build>
