@@ -1,9 +1,6 @@
 package com.recipes.handler;
 
-import com.recipes.exception.BaseException;
-import com.recipes.exception.FavoriteNotFoundException;
-import com.recipes.exception.PasswordErrorException;
-import com.recipes.exception.AccountNotFoundException;
+import com.recipes.exception.*;
 import com.recipes.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -61,6 +58,54 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccountNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Result<String> exceptionHandler(AccountNotFoundException ex){
+        log.error("异常信息：{}", ex.getMessage());
+        return Result.error(ex.getMessage());
+    }
+
+    /**
+     * Handle RecipeNotFoundException
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(RecipeNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result<String> exceptionHandler(RecipeNotFoundException ex){
+        log.error("异常信息：{}", ex.getMessage());
+        return Result.error(ex.getMessage());
+    }
+
+    /**
+     * Handle UserNotFoundException
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result<String> exceptionHandler(UserNotFoundException ex){
+        log.error("异常信息：{}", ex.getMessage());
+        return Result.error(ex.getMessage());
+    }
+
+    /**
+     * Handle AlreadyLikedException
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(AlreadyLikedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Result<String> exceptionHandler(AlreadyLikedException ex){
+        log.error("异常信息：{}", ex.getMessage());
+        return Result.error(ex.getMessage());
+    }
+
+    /**
+     * Handle LikeNotFoundException
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(LikeNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result<String> exceptionHandler(LikeNotFoundException ex){
         log.error("异常信息：{}", ex.getMessage());
         return Result.error(ex.getMessage());
     }

@@ -30,15 +30,13 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Result<List<CommentDTO>> getRecipeComments(Long recipeId) {
         List<Comment> comments = commentDAO.findCommentsByRecipeId(recipeId);
-        List<CommentDTO> commentDTOs = commentMapper.toDtoList(comments);
-        return Result.success(commentDTOs);
+        return Result.success(commentMapper.toDtoList(comments));
     }
 
     @Override
     public Result<List<CommentDTO>> getAllMyComments(Long userId) {
         List<Comment> comments = commentDAO.findCommentsByUserId(userId);
-        List<CommentDTO> commentDTOs = commentMapper.toDtoList(comments);
-        return Result.success(commentDTOs);
+        return Result.success(commentMapper.toDtoList(comments));
     }
 
     @Override

@@ -20,12 +20,13 @@ public class LikeDAO {
         entityManager.persist(like);
     }
 
+
     @Transactional
-    public void deleteLike(LikeId likeId) {
-        Like like = entityManager.find(Like.class, likeId);
-        if (like != null) {
-            entityManager.remove(like);
-        }
+    public void deleteLike(Like like) {
+        entityManager.remove(entityManager.contains(like) ? like : entityManager.merge(like));
+    }
+    public Like findLikeById(LikeId likeId) {
+        return entityManager.find(Like.class, likeId);
     }
 
     public int countLikesByRecipeId(Long recipeId) {
@@ -40,5 +41,13 @@ public class LikeDAO {
         return entityManager.createQuery(query, Like.class)
                 .setParameter("userId", userId)
                 .getResultList();
+    }
+    public boolean existsById(LikeId likeId) {
+        String query = "SELECT COUNT(l) FROM Like l WHERE l.id.userId = :userId AND l.id.recipeId = :recipeId";
+        Long count = entityManager.createQuery(query, Long.class)
+                .setParameter("userId", likeId.getUserId())
+                .setParameter("recipeId", likeId.getRecipeId())
+                .getSingleResult();
+        return count > 0;
     }
 }

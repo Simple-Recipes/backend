@@ -9,12 +9,16 @@ import com.recipes.entity.Like;
 import com.recipes.entity.LikeId;
 import com.recipes.entity.Recipe;
 import com.recipes.entity.User;
+import com.recipes.exception.AlreadyLikedException;
+import com.recipes.exception.LikeNotFoundException;
+import com.recipes.exception.RecipeNotFoundException;
 import com.recipes.mapper.LikeMapper;
 import com.recipes.mapper.RecipeMapper;
 import com.recipes.result.Result;
 import com.recipes.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +41,9 @@ public class LikeServiceImpl implements LikeService {
     @Autowired
     private RecipeMapper recipeMapper;
 
+
     @Override
+    @Transactional
     public Result<LikeDTO> likeRecipe(Long userId, Long recipeId) {
         User user = userDAO.findUserById(userId);
         Recipe recipe = recipeDAO.findRecipeById(recipeId);
@@ -51,8 +57,11 @@ public class LikeServiceImpl implements LikeService {
         }
 
         LikeId likeId = new LikeId(userId, recipeId);
-        Like like = new Like(likeId, user, recipe);
+        if (likeDAO.existsById(likeId)) {
+            throw new AlreadyLikedException("You have already liked this recipe.");
+        }
 
+        Like like = new Like(likeId, user, recipe);
         likeDAO.saveLike(like);
 
         LikeDTO likeDTO = likeMapper.toDto(like);
@@ -60,9 +69,20 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
+    @Transactional
     public Result<Void> unlikeRecipe(Long userId, Long recipeId) {
+        Recipe recipe = recipeDAO.findRecipeById(recipeId);
+        if (recipe == null) {
+            throw new RecipeNotFoundException("Recipe not found");
+        }
+
         LikeId likeId = new LikeId(userId, recipeId);
-        likeDAO.deleteLike(likeId);
+        if (!likeDAO.existsById(likeId)) {
+            throw new LikeNotFoundException("You have not liked this recipe yet.");
+        }
+
+        Like like = likeDAO.findLikeById(likeId);
+        likeDAO.deleteLike(like);
         return Result.success();
     }
 

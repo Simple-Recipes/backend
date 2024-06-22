@@ -33,5 +33,3 @@ public class CommentDTO implements Serializable {
     @Schema(description = "The creation time of the comment")
     private LocalDateTime createTime;
 }
-
-
