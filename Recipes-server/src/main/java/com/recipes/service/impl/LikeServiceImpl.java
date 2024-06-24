@@ -82,9 +82,10 @@ public class LikeServiceImpl implements LikeService {
         }
 
         Like like = likeDAO.findLikeById(likeId);
-        likeDAO.deleteLike(like);
+        likeDAO.deleteLike(likeId);
         return Result.success();
     }
+
 
     @Override
     public Result<Integer> getRecipeLikes(Long recipeId) {

@@ -89,6 +89,7 @@ public class RecipeController {
         log.info("Getting details for recipe with id={}", id);
         return recipeService.getRecipeDetails(id);
     }
+
     @PostMapping("/edit")
     @Operation(summary = "Edit a recipe", description = "Edit an existing recipe")
     public ResponseEntity<Result<RecipeDTO>> editRecipe(@RequestBody RecipeDTO recipeDTO) {
@@ -98,9 +99,25 @@ public class RecipeController {
             return new ResponseEntity<>(Result.error("User is not logged in"), HttpStatus.UNAUTHORIZED);
         }
         log.info("Editing recipe: userId={}, recipeDTO={}", userId, recipeDTO);
-        Result<RecipeDTO> result = recipeService.editRecipe(userId, recipeDTO);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+
+        try {
+            // 验证当前用户是否为食谱的发布者
+            if (!recipeService.isRecipeOwner(userId, recipeDTO.getId())) {
+                log.error("User {} is not the owner of recipe {}", userId, recipeDTO.getId());
+                return new ResponseEntity<>(Result.error("You do not have permission to edit this recipe"), HttpStatus.FORBIDDEN);
+            }
+
+            Result<RecipeDTO> result = recipeService.editRecipe(userId, recipeDTO);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error editing recipe", e);
+            return new ResponseEntity<>(Result.error("Error editing recipe"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+
+
+
 
 
 }

@@ -104,7 +104,10 @@ public class RecipeServiceImpl implements RecipeService {
                 .collect(Collectors.toList());
         return Result.success(recipeDTOs);
     }
-
+    public boolean isRecipeOwner(Long userId, Long recipeId) {
+        Recipe recipe = recipeDAO.findRecipeById(recipeId);
+        return recipe != null && recipe.getUser().getId().equals(userId);
+    }
 
 
     @Override
@@ -116,6 +119,7 @@ public class RecipeServiceImpl implements RecipeService {
         return Result.success();
     }
 
+    @Override
     @Transactional
     public Result<RecipeDTO> editRecipe(Long userId, RecipeDTO recipeDTO) {
         Recipe recipe = recipeDAO.findRecipeById(recipeDTO.getId());
@@ -129,10 +133,10 @@ public class RecipeServiceImpl implements RecipeService {
             recipe.setTitle(recipeDTO.getTitle());
         }
         if (recipeDTO.getIngredients() != null) {
-            recipe.setIngredients(Arrays.toString(recipeDTO.getIngredients()));
+            recipe.setIngredients(RecipeMapper.convertArrayToJson(recipeDTO.getIngredients()));
         }
         if (recipeDTO.getDirections() != null) {
-            recipe.setDirections(Arrays.toString(recipeDTO.getDirections()));
+            recipe.setDirections(RecipeMapper.convertArrayToJson(recipeDTO.getDirections()));
         }
         if (recipeDTO.getLink() != null) {
             recipe.setLink(recipeDTO.getLink());
@@ -141,7 +145,7 @@ public class RecipeServiceImpl implements RecipeService {
             recipe.setSource(recipeDTO.getSource());
         }
         if (recipeDTO.getNer() != null) {
-            recipe.setNer(Arrays.toString(recipeDTO.getNer()));
+            recipe.setNer(RecipeMapper.convertArrayToJson(recipeDTO.getNer()));
         }
 
         recipeDAO.saveRecipe(recipe);

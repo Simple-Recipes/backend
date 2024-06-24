@@ -22,8 +22,11 @@ public class LikeDAO {
 
 
     @Transactional
-    public void deleteLike(Like like) {
-        entityManager.remove(entityManager.contains(like) ? like : entityManager.merge(like));
+    public void deleteLike(LikeId likeId) {
+        Like like = entityManager.find(Like.class, likeId);
+        if (like != null) {
+            entityManager.remove(like);
+        }
     }
     public Like findLikeById(LikeId likeId) {
         return entityManager.find(Like.class, likeId);

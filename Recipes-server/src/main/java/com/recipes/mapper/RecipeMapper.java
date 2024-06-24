@@ -59,6 +59,9 @@ public interface RecipeMapper {
     }
 
     static String[] convertJsonToArray(String jsonString) {
+        if (jsonString == null || jsonString.isEmpty()) {
+            return new String[0];
+        }
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(jsonString, String[].class);
@@ -66,4 +69,5 @@ public interface RecipeMapper {
             throw new RuntimeException("Failed to convert JSON string to array", e);
         }
     }
+
 }

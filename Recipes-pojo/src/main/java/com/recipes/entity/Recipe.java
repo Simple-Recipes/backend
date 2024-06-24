@@ -72,4 +72,5 @@ public class Recipe implements Serializable {
     protected void onUpdate() {
         this.updateTime = LocalDateTime.now();
     }
+
 }
