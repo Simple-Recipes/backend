@@ -18,7 +18,7 @@ spring:
     password: ${recipes.datasource.password}
   jpa:
     hibernate:
-#      ddl-auto: validate
+      #      ddl-auto: validate
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
@@ -93,7 +93,7 @@ knife4j:
       name: API Signatures  # Custom document tag name
       locations: classpath:sign/*  # Path to markdown files
   setting:
-#    language: ‘en-US’  # UI default language (English)
+    #    language: ‘en-US’  # UI default language (English)
     enable-swagger-models: true  # Display Swagger Models feature
     swagger-model-name: API List  # Rename Swagger Model section
     enable-document-manage: true  # Enable document management feature
@@ -103,7 +103,7 @@ knife4j:
     enable-filter-multipart-api-method-type: POST  # Filter interface request types to show only POST
     enable-filter-multipart-apis: false  # Do not filter out multipart APIs
     enable-request-cache: true  # Enable request parameter caching
-#    enable-host: false  # Disable custom Host configuration
+    #    enable-host: false  # Disable custom Host configuration
     enable-host-text: 192.168.0.193:8000  # Set Host address (if enable-host is true)
     enable-home-custom: true  # Enable custom homepage content
     home-custom-path: classpath:markdown/home.md  # Path to custom homepage content in Markdown

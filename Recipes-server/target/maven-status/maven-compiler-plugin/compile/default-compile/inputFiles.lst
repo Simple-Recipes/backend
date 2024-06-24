@@ -1,12 +1,15 @@
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/mapper/RecipeMapper.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/service/impl/LikeServiceImpl.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/mapper/UserMapper.java
+/Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/controller/LikeController.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/service/impl/FavoriteServiceImpl.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/dao/FavoriteDAO.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/controller/FavoriteController.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/service/UserService.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/dao/RecipeDAO.java
+/Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/controller/TagController.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/interceptor/JwtTokenAdminInterceptor.java
+/Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/controller/RedisController.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/service/CommentService.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/dao/CommentDAO.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/service/impl/TagServiceImpl.java
@@ -16,6 +19,7 @@
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/dao/LikeDAO.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/mapper/FavoriteMapper.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/controller/RecipeController.java
+/Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/aop/TimeAspect.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/controller/UserController.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/dao/UserDAO.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/service/impl/UserServiceImpl.java
@@ -23,8 +27,10 @@
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/service/FavoriteService.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/interceptor/JwtTokenUserInterceptor.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/handler/GlobalExceptionHandler.java
+/Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/config/RedisConfig.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/dao/TagDAO.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/mapper/LikeMapper.java
+/Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/controller/CommentController.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/mapper/CommentMapper.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/config/WebMvcConfiguration.java
 /Users/jememalum/Downloads/backend/Recipes-server/src/main/java/com/recipes/service/impl/RecipeServiceImpl.java

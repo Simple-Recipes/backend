@@ -1,0 +1,2 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1719263478412,5,HTTP Request,200,,Thread Group 1-1,text,true,,442,233,1,1,http://localhost:8080/user/login,5,0,1

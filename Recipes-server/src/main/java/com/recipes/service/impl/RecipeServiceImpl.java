@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -112,4 +115,39 @@ public class RecipeServiceImpl implements RecipeService {
         recipeDAO.deleteRecipe(recipeId);
         return Result.success();
     }
+
+    @Transactional
+    public Result<RecipeDTO> editRecipe(Long userId, RecipeDTO recipeDTO) {
+        Recipe recipe = recipeDAO.findRecipeById(recipeDTO.getId());
+
+        if (recipe == null || !recipe.getUser().getId().equals(userId)) {
+            return Result.error("Recipe not found or you do not have permission to edit this recipe");
+        }
+
+        // Update only the fields that are provided in the DTO
+        if (recipeDTO.getTitle() != null) {
+            recipe.setTitle(recipeDTO.getTitle());
+        }
+        if (recipeDTO.getIngredients() != null) {
+            recipe.setIngredients(Arrays.toString(recipeDTO.getIngredients()));
+        }
+        if (recipeDTO.getDirections() != null) {
+            recipe.setDirections(Arrays.toString(recipeDTO.getDirections()));
+        }
+        if (recipeDTO.getLink() != null) {
+            recipe.setLink(recipeDTO.getLink());
+        }
+        if (recipeDTO.getSource() != null) {
+            recipe.setSource(recipeDTO.getSource());
+        }
+        if (recipeDTO.getNer() != null) {
+            recipe.setNer(Arrays.toString(recipeDTO.getNer()));
+        }
+
+        recipeDAO.saveRecipe(recipe);
+
+        RecipeDTO updatedRecipeDTO = recipeMapper.toDto(recipe);
+        return Result.success(updatedRecipeDTO);
+    }
+
 }

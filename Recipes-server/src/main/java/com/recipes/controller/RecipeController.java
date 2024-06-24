@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -81,4 +83,24 @@ public class RecipeController {
         log.info("Deleting recipe: userId={}, recipeId={}", userId, recipeId);
         return recipeService.deleteRecipe(userId, recipeId);
     }
+    @GetMapping("/edit/{id}")
+    @Operation(summary = "Get recipe details for editing", description = "Get the details of a specific recipe for editing")
+    public Result<RecipeDTO> getRecipeDetailsForEdit(@PathVariable Long id) {
+        log.info("Getting details for recipe with id={}", id);
+        return recipeService.getRecipeDetails(id);
+    }
+    @PostMapping("/edit")
+    @Operation(summary = "Edit a recipe", description = "Edit an existing recipe")
+    public ResponseEntity<Result<RecipeDTO>> editRecipe(@RequestBody RecipeDTO recipeDTO) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            log.error("User is not logged in");
+            return new ResponseEntity<>(Result.error("User is not logged in"), HttpStatus.UNAUTHORIZED);
+        }
+        log.info("Editing recipe: userId={}, recipeDTO={}", userId, recipeDTO);
+        Result<RecipeDTO> result = recipeService.editRecipe(userId, recipeDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
 }

@@ -1,3 +1,4 @@
+/Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/exception/UserNotFoundException.java
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/exception/AccountLockedException.java
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/exception/UserNotLoginException.java
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/exception/OrderBusinessException.java
@@ -10,7 +11,9 @@
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/exception/FavoriteNotFoundException.java
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/context/BaseContext.java
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/constant/PasswordConstant.java
+/Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/exception/LikeNotFoundException.java
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/utils/JwtUtil.java
+/Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/exception/RecipeNotFoundException.java
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/enumeration/OperationType.java
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/constant/JwtClaimsConstant.java
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/exception/PasswordEditFailedException.java
@@ -23,3 +26,4 @@
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/exception/LoginFailedException.java
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/json/JacksonObjectMapper.java
 /Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/constant/StatusConstant.java
+/Users/jememalum/Downloads/backend/Recipes-common/src/main/java/com/recipes/exception/AlreadyLikedException.java

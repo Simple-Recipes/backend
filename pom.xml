@@ -38,6 +38,13 @@
         <mysql-connector-java>8.0.29</mysql-connector-java>
         <mapstruct>1.5.5.Final</mapstruct>
         <hibernate-core>6.2.7.Final</hibernate-core>
+        <jmeter-java-dsl>1.29</jmeter-java-dsl>
+        <junit-jupiter-api>5.8.2</junit-jupiter-api>
+        <junit-jupiter-engine>5.8.2</junit-jupiter-engine>
+        <groovy-json>3.0.9</groovy-json>
+        <jmeter-java-dsl-jdbc>1.29</jmeter-java-dsl-jdbc>
+        <flyway-core>10.1.0</flyway-core>
+        <flyway-mysql>10.1.0</flyway-mysql>
     </properties>
     <dependencies>
         <dependency>
@@ -57,6 +64,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+        <!-- Spring Boot dependencies -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -64,6 +76,12 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector-java}</version>
+            </dependency>
+            <dependency>
+                <groupId>us.abstracta.jmeter</groupId>
+                <artifactId>jmeter-java-dsl-jdbc</artifactId>
+                <version>${jmeter-java-dsl-jdbc}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
@@ -146,7 +164,30 @@
                 <artifactId>hibernate-core</artifactId>
                 <version>${hibernate-core}</version>
             </dependency>
-
+            <dependency>
+                <groupId>us.abstracta.jmeter</groupId>
+                <artifactId>jmeter-java-dsl</artifactId>
+                <version>${jmeter-java-dsl}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit-jupiter-api}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit-jupiter-engine}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- groovy-json dependency -->
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-json</artifactId>
+                <version>${groovy-json}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

@@ -12,6 +12,7 @@ public interface RecipeService {
     Result<PageResult> getPopularRecipes();
     Result<PageResult> searchRecipes(RecipePageQueryDTO queryDTO, String sortBy, String tagName);
     Result<RecipeDTO> publishRecipe(RecipeDTO recipeDTO);
+    Result<RecipeDTO> editRecipe(Long userId, RecipeDTO recipeDTO);
 
     Result<List<RecipeDTO>> getUserRecipes(Long userId);
     Result<List<RecipeDTO>> getAllMyRecipes(Long userId);
