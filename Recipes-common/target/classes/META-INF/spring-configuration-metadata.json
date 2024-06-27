@@ -10,7 +10,6 @@
     {
       "name": "recipes.jwt.admin-secret-key",
       "type": "java.lang.String",
-      "description": "Configuration related to jwt token generation for employees on the management side",
       "sourceType": "com.recipes.properties.JwtProperties"
     },
     {
@@ -26,7 +25,6 @@
     {
       "name": "recipes.jwt.user-secret-key",
       "type": "java.lang.String",
-      "description": "Configuration related to generation of jwt tokens on the user side",
       "sourceType": "com.recipes.properties.JwtProperties"
     },
     {

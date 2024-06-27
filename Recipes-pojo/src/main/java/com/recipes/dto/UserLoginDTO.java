@@ -25,4 +25,7 @@ public class UserLoginDTO implements Serializable {
 
     @Schema(description ="Password")
     private String password;
+
+    @Schema(description ="Remember me")
+    private String code;
 }

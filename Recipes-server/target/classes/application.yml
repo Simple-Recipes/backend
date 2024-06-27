@@ -33,12 +33,10 @@ spring:
 
   data:
     redis:
-      host: ${recipes.redis.host}
       port: ${recipes.redis.port}
+      host: ${recipes.redis.host}
 
 
-security:
-  enabled: false
 
 
 
@@ -59,11 +57,12 @@ logging:
 recipes:
   jwt:
     adminSecretKey: myAdminSecretKey123456
-    adminTtl: 7200000  # 2 hour
+    adminTtl: 7200000  # 2 hours
     adminTokenName: Admin-Token
     userSecretKey: myUserSecretKey123456
-    userTtl: 7200000  # 2 hour
+    userTtl: 86400000  # 1 day
     userTokenName: User-Token
+
 
 
 # Springdoc OpenAPI configuration

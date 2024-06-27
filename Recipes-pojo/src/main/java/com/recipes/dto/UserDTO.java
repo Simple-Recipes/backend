@@ -34,4 +34,7 @@ public class UserDTO implements Serializable {
 
     @Schema(description ="Creation timestamp")
     private String createTime;
+
+    @Schema(description = "JWT token")
+    private String token;
 }

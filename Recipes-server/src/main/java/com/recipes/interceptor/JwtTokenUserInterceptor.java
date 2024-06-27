@@ -1,16 +1,22 @@
 package com.recipes.interceptor;
 
+import com.recipes.dto.UserDTO;
 import com.recipes.properties.JwtProperties;
 import com.recipes.utils.JwtUtil;
+import com.recipes.utils.UserHolder;
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
@@ -19,43 +25,53 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
     @Autowired
     private JwtProperties jwtProperties;
 
-    /**
-     * Validate JWT
-     *
-     * @param request
-     * @param response
-     * @param handler
-     * @return
-     * @throws Exception
-     */
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // Determine if the current interception is a Controller method or other resource
         if (!(handler instanceof HandlerMethod)) {
-            // If the current interception is not a dynamic method, allow direct access
             return true;
         }
 
-        // 1. Get the token from the request header
         String token = request.getHeader(jwtProperties.getUserTokenName());
 
-        // 2. Validate the token
-        try {
-            log.info("JWT validation: {}", token);
-            Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-            Long userId = Long.valueOf(claims.get("user_id").toString());
-            log.info("Current user ID: {}", userId);
-
-            // 3. Set the user ID in the session
-            HttpSession session = request.getSession();
-            session.setAttribute("userId", userId);
-
-            // 4. Pass the validation, allow access
-            return true;
-        } catch (Exception ex) {
-            // 5. Fail validation, respond with 401 status code
-            response.setStatus(401);
+        if (token == null || token.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
+
+        try {
+            Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
+            Long userId = Long.valueOf(claims.get("user_id").toString());
+
+            // 从 Redis 中获取用户信息
+            String userKey = "login:user:" + userId;
+            Map<Object, Object> userMap = redisTemplate.opsForHash().entries(userKey);
+            if (userMap.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return false;
+            }
+
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(userId);
+            userDTO.setUsername((String) userMap.get("username"));
+
+            // 将用户信息存储到 ThreadLocal 中
+            UserHolder.saveUser(userDTO);
+
+            // 刷新 token 有效期
+            redisTemplate.expire(userKey, jwtProperties.getUserTtl(), TimeUnit.MILLISECONDS);
+
+            return true;
+        } catch (Exception ex) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return false;
+        }
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        UserHolder.removeUser();
     }
 }

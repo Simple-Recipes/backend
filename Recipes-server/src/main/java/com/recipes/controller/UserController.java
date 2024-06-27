@@ -1,13 +1,13 @@
 package com.recipes.controller;
 
-import com.recipes.dto.UserLoginDTO;
+import com.recipes.dto.UserLoginWithCodeDTO;
+import com.recipes.dto.UserLoginWithPasswordDTO;
 import com.recipes.dto.UserRegisterDTO;
 import com.recipes.dto.UserDTO;
 import com.recipes.properties.JwtProperties;
 import com.recipes.result.Result;
 import com.recipes.service.UserService;
 import com.recipes.utils.JwtUtil;
-import com.recipes.vo.UserLoginVO;
 import com.recipes.dto.UserProfileUpdateDTO;
 import com.recipes.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,32 +55,36 @@ public class UserController {
 
         return Result.success(userVO);
     }
-
-    @PostMapping("/login")
-    @Operation(summary = "User login")
-    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
-        log.info("User login:{}", userLoginDTO);
-
-        UserDTO userDTO = userService.login(userLoginDTO);
-
-        // Generate JWT token
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("user_id", userDTO.getId());
-        String token = JwtUtil.createJWT(
-                jwtProperties.getUserSecretKey(),
-                jwtProperties.getUserTtl(),
-                claims);
-
-        UserLoginVO userLoginVO = UserLoginVO.builder()
-                .id(userDTO.getId())
-                .username(userDTO.getUsername())
-                .token(token)
-                .build();
-
-        return Result.success(userLoginVO);
+    @PostMapping("/sendCode")
+    @Operation(summary = "Send verification code to email")
+    public Result<Void> sendCode(@RequestParam String email) {
+        userService.sendCode(email);
+        return Result.success();
     }
 
-    @GetMapping("/profile")
+    @PostMapping("/loginWithCode")
+    @Operation(summary = "User login with email and code")
+    public Result<UserDTO> loginWithCode(@RequestBody UserLoginWithCodeDTO userLoginDTO) {
+        log.info("User login with email and code:{}", userLoginDTO);
+
+        UserDTO userDTO = userService.loginWithCode(userLoginDTO);
+
+        return Result.success(userDTO);
+    }
+
+    @PostMapping("/loginWithPassword")
+    @Operation(summary = "User login with username and password")
+    public Result<UserDTO> loginWithPassword(@RequestBody UserLoginWithPasswordDTO userLoginDTO) {
+        log.info("User login with username and password:{}", userLoginDTO);
+
+        UserDTO userDTO = userService.loginWithPassword(userLoginDTO);
+
+        return Result.success(userDTO);
+    }
+
+
+
+@GetMapping("/profile")
     @Operation(summary = "Get user profile")
     public Result<UserDTO> getUserProfile() {
         Long userId = (Long) session.getAttribute("userId");
