@@ -4,6 +4,7 @@ import com.recipes.dto.LikeDTO;
 import com.recipes.dto.RecipeDTO;
 import com.recipes.result.Result;
 import com.recipes.service.LikeService;
+import com.recipes.utils.UserHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +35,7 @@ public class LikeController {
     public ResponseEntity<Result<LikeDTO>> likeRecipe(
             @Parameter(description = "LikeDTO containing recipeId", required = true)
             @RequestBody LikeDTO likeDTO) {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         if (userId == null) {
             log.error("User is not logged in");
             return new ResponseEntity<>(Result.error("User is not logged in"), HttpStatus.UNAUTHORIZED);
@@ -51,7 +52,7 @@ public class LikeController {
     public ResponseEntity<Result<Void>> unlikeRecipe(
             @Parameter(description = "LikeDTO containing recipeId", required = true)
             @RequestBody LikeDTO likeDTO) {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         if (userId == null) {
             log.error("User is not logged in");
             return new ResponseEntity<>(Result.error("User is not logged in"), HttpStatus.UNAUTHORIZED);
@@ -66,7 +67,7 @@ public class LikeController {
     @GetMapping("/getAllMyLikes")
     @Operation(summary = "Get all likes", description = "Get all recipes liked by the user")
     public Result<List<RecipeDTO>> getAllMyLikes() {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         log.info("Getting all likes for user with id={}", userId);
         return likeService.getAllMyLikes(userId);
     }

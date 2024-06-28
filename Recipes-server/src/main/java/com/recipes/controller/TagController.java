@@ -3,6 +3,7 @@ package com.recipes.controller;
 import com.recipes.dto.*;
 import com.recipes.result.Result;
 import com.recipes.service.TagService;
+import com.recipes.utils.UserHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
@@ -27,7 +28,7 @@ public class TagController {
     @GetMapping("/getAllMyTags")
     @Operation(summary = "Get all my tags", description = "Get a list of all tags added by the user")
     public Result<List<TagDTO>> getAllMyTags() {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         log.info("Getting all tags for user with id={}", userId);
         return tagService.getAllMyTags(userId);
     }

@@ -10,6 +10,7 @@ import com.recipes.mapper.RecipeMapper;
 import com.recipes.result.PageResult;
 import com.recipes.result.Result;
 import com.recipes.service.RecipeService;
+import com.recipes.utils.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +67,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Result<RecipeDTO> publishRecipe(RecipeDTO recipeDTO) {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         if (userId == null) {
             return Result.error("User is not logged in");
         }

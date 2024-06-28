@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
         String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), claims);
         log.info("JWT token: {}", token);
 
-        // 将用户信息存储到 Redis 中
+        // 将用户信息存储到 Redis 中，使用 token 作为键
         String userKey = RedisConstants.LOGIN_USER_KEY + token;
         redisTemplate.opsForHash().put(userKey, "id", userDTO.getId().toString());
         redisTemplate.opsForHash().put(userKey, "username", userDTO.getUsername());
@@ -94,6 +94,9 @@ public class UserServiceImpl implements UserService {
         redisTemplate.opsForHash().put(userKey, "avatar", userDTO.getAvatar());
         redisTemplate.expire(userKey, jwtProperties.getUserTtl(), TimeUnit.MILLISECONDS);
         log.info("User info stored in Redis: {}", userKey);
+
+        // 保存 token 和 userId 的映射关系
+        redisTemplate.opsForValue().set(RedisConstants.LOGIN_USER_TOKEN_KEY + token, userDTO.getId().toString(), jwtProperties.getUserTtl(), TimeUnit.MILLISECONDS);
 
         // 保存用户信息到 ThreadLocal
         UserHolder.saveUser(userDTO);
@@ -105,7 +108,6 @@ public class UserServiceImpl implements UserService {
 
         return userDTO;
     }
-
 
     @Transactional
     @Override
@@ -135,13 +137,16 @@ public class UserServiceImpl implements UserService {
         claims.put("user_id", userDTO.getId());
         String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), claims);
 
-        // 将用户信息存储到 Redis 中
+        // 将用户信息存储到 Redis 中，使用 token 作为键
         String userKey = RedisConstants.LOGIN_USER_KEY + token;
         redisTemplate.opsForHash().put(userKey, "id", userDTO.getId().toString());
         redisTemplate.opsForHash().put(userKey, "username", userDTO.getUsername());
         redisTemplate.opsForHash().put(userKey, "email", userDTO.getEmail());
         redisTemplate.opsForHash().put(userKey, "avatar", userDTO.getAvatar());
         redisTemplate.expire(userKey, jwtProperties.getUserTtl(), TimeUnit.MILLISECONDS);
+
+        // 保存 token 和 userId 的映射关系
+        redisTemplate.opsForValue().set(RedisConstants.LOGIN_USER_TOKEN_KEY + token, userDTO.getId().toString(), jwtProperties.getUserTtl(), TimeUnit.MILLISECONDS);
 
         // 保存用户信息到 ThreadLocal
         UserHolder.saveUser(userDTO);

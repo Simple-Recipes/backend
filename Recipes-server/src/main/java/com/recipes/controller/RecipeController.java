@@ -4,11 +4,11 @@ import com.recipes.dto.*;
 import com.recipes.result.PageResult;
 import com.recipes.result.Result;
 import com.recipes.service.RecipeService;
+import com.recipes.utils.UserHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +26,6 @@ public class RecipeController {
 
     @Autowired
     private RecipeService recipeService;
-
-    @Autowired
-    private HttpSession session;
 
     @GetMapping("/{id}")
     @Operation(summary = "Get recipe details", description = "Get the details of a specific recipe")
@@ -60,7 +57,7 @@ public class RecipeController {
     @PostMapping("/publish")
     @Operation(summary = "Publish a recipe", description = "Publishes a recipe to the user's recipe list")
     public Result<RecipeDTO> publishRecipe(@RequestBody RecipeDTO recipeDTO) {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         log.info("Publishing recipe: userId={}, recipeDTO={}", userId, recipeDTO);
         return recipeService.publishRecipe(recipeDTO);
     }
@@ -68,7 +65,7 @@ public class RecipeController {
     @GetMapping("/getAllMyRecipes")
     @Operation(summary = "Get all my recipes", description = "Get all recipes published by the user")
     public Result<List<RecipeDTO>> getUserRecipes() {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         log.info("Getting recipes for user with id={}", userId);
         return recipeService.getUserRecipes(userId);
     }
@@ -79,10 +76,11 @@ public class RecipeController {
     public Result<Void> deleteRecipe(
             @Parameter(description = "ID of the recipe to be deleted", required = true, in = ParameterIn.QUERY)
             @RequestParam Long recipeId) {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         log.info("Deleting recipe: userId={}, recipeId={}", userId, recipeId);
         return recipeService.deleteRecipe(userId, recipeId);
     }
+
     @GetMapping("/edit/{id}")
     @Operation(summary = "Get recipe details for editing", description = "Get the details of a specific recipe for editing")
     public Result<RecipeDTO> getRecipeDetailsForEdit(@PathVariable Long id) {
@@ -93,7 +91,7 @@ public class RecipeController {
     @PostMapping("/edit")
     @Operation(summary = "Edit a recipe", description = "Edit an existing recipe")
     public ResponseEntity<Result<RecipeDTO>> editRecipe(@RequestBody RecipeDTO recipeDTO) {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         if (userId == null) {
             log.error("User is not logged in");
             return new ResponseEntity<>(Result.error("User is not logged in"), HttpStatus.UNAUTHORIZED);
@@ -114,10 +112,4 @@ public class RecipeController {
             return new ResponseEntity<>(Result.error("Error editing recipe"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
-
-
-
 }

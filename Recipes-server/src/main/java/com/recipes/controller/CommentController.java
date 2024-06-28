@@ -3,6 +3,7 @@ package com.recipes.controller;
 import com.recipes.dto.CommentDTO;
 import com.recipes.result.Result;
 import com.recipes.service.CommentService;
+import com.recipes.utils.UserHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -26,13 +27,10 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @Autowired
-    private HttpSession session;
-
     @PostMapping("/postRecipeComment")
     @Operation(summary = "Post a comment on a recipe", description = "Submit a comment on a recipe")
     public Result<CommentDTO> commentOnRecipe(@RequestBody CommentDTO commentDTO) {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         if (userId == null) {
             return Result.error("User is not logged in");
         }
@@ -51,7 +49,7 @@ public class CommentController {
     @GetMapping("/getAllMyComments")
     @Operation(summary = "Get all my comments", description = "Get all comments made by the user")
     public Result<List<CommentDTO>> getAllMyComments() {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         log.info("Getting all comments for user with id={}", userId);
         return commentService.getAllMyComments(userId);
     }

@@ -4,6 +4,7 @@ import com.recipes.dto.UserDTO;
 import com.recipes.properties.JwtProperties;
 import com.recipes.utils.JwtUtil;
 import com.recipes.utils.UserHolder;
+import com.recipes.constant.RedisConstants;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,10 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
         }
 
         String token = request.getHeader(jwtProperties.getUserTokenName());
+        log.info("Token: {}", token);
 
         if (token == null || token.isEmpty()) {
+            log.error("Token is missing");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
@@ -44,11 +47,13 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
         try {
             Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
             Long userId = Long.valueOf(claims.get("user_id").toString());
+            log.info("Parsed userId from token: {}", userId);
 
             // 从 Redis 中获取用户信息
-            String userKey = "login:user:" + userId;
+            String userKey = RedisConstants.LOGIN_USER_KEY + token;
             Map<Object, Object> userMap = redisTemplate.opsForHash().entries(userKey);
             if (userMap.isEmpty()) {
+                log.error("No user information found in Redis for token: {}", token);
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return false;
             }
@@ -56,6 +61,8 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
             UserDTO userDTO = new UserDTO();
             userDTO.setId(userId);
             userDTO.setUsername((String) userMap.get("username"));
+            userDTO.setEmail((String) userMap.get("email"));
+            userDTO.setAvatar((String) userMap.get("avatar"));
 
             // 将用户信息存储到 ThreadLocal 中
             UserHolder.saveUser(userDTO);
@@ -65,6 +72,7 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
 
             return true;
         } catch (Exception ex) {
+            log.error("JWT parsing or Redis error: {}", ex.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }

@@ -4,6 +4,7 @@ import com.recipes.dto.FavoriteDTO;
 import com.recipes.dto.RecipeDTO;
 import com.recipes.result.Result;
 import com.recipes.service.FavoriteService;
+import com.recipes.utils.UserHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -51,7 +52,7 @@ public class FavoriteController {
     public ResponseEntity<Result<Void>> removeFromFavorites(
             @Parameter(description = "Request data containing recipeId", required = true, in = ParameterIn.QUERY)
             @RequestParam Long recipeId) {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         if (userId == null) {
             log.error("User is not logged in");
             return new ResponseEntity<>(Result.error("User is not logged in"), HttpStatus.UNAUTHORIZED);

@@ -9,6 +9,7 @@ import com.recipes.result.Result;
 import com.recipes.service.UserService;
 import com.recipes.utils.JwtUtil;
 import com.recipes.dto.UserProfileUpdateDTO;
+import com.recipes.utils.UserHolder;
 import com.recipes.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -87,7 +88,7 @@ public class UserController {
 @GetMapping("/profile")
     @Operation(summary = "Get user profile")
     public Result<UserDTO> getUserProfile() {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         if (userId == null) {
             log.error("User is not logged in");
             return Result.error("User is not logged in");
@@ -100,7 +101,7 @@ public class UserController {
     @PutMapping("/profile")
     @Operation(summary = "Update user profile")
     public Result<UserDTO> updateUserProfile(@RequestBody UserProfileUpdateDTO userProfileUpdateDTO) {
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = UserHolder.getUser().getId();
         if (userId == null) {
             log.error("User is not logged in");
             return Result.error("User is not logged in");
