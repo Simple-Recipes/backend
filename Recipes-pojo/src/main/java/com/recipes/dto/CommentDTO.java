@@ -30,6 +30,9 @@ public class CommentDTO implements Serializable {
     @Schema(description = "The content of the comment", required = true)
     private String content;
 
+    @Schema(description = "The rating of the comment", required = true)
+    private int rating;
+
     @Schema(description = "The creation time of the comment")
     private LocalDateTime createTime;
 }

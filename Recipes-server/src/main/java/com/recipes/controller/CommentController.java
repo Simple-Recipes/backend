@@ -1,3 +1,4 @@
+// CommentController.java
 package com.recipes.controller;
 
 import com.recipes.dto.CommentDTO;

@@ -1,3 +1,4 @@
+// CommentDAO.java
 package com.recipes.dao;
 
 import com.recipes.entity.Comment;

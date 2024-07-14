@@ -10,6 +10,7 @@ import com.recipes.mapper.RecipeMapper;
 import com.recipes.result.PageResult;
 import com.recipes.result.Result;
 import com.recipes.service.RecipeService;
+import com.recipes.utils.JsonConversionUtil;
 import com.recipes.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +32,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     private UserDAO userDAO;
-
 
     @Autowired
     private RecipeMapper recipeMapper;
@@ -98,19 +97,12 @@ public class RecipeServiceImpl implements RecipeService {
                 .collect(Collectors.toList());
         return Result.success(recipeDTOs);
     }
+
     @Override
-    public Result<List<RecipeDTO>> getAllMyRecipes(Long userId) {
-        List<Recipe> recipes = recipeDAO.findRecipesByUserId(userId);
-        List<RecipeDTO> recipeDTOs = recipes.stream()
-                .map(recipeMapper::toDto)
-                .collect(Collectors.toList());
-        return Result.success(recipeDTOs);
-    }
     public boolean isRecipeOwner(Long userId, Long recipeId) {
         Recipe recipe = recipeDAO.findRecipeById(recipeId);
         return recipe != null && recipe.getUser().getId().equals(userId);
     }
-
 
     @Override
     public Result<Void> deleteRecipe(Long userId, Long recipeId) {
@@ -135,19 +127,16 @@ public class RecipeServiceImpl implements RecipeService {
             recipe.setTitle(recipeDTO.getTitle());
         }
         if (recipeDTO.getIngredients() != null) {
-            recipe.setIngredients(RecipeMapper.convertArrayToJson(recipeDTO.getIngredients()));
+            recipe.setIngredients(JsonConversionUtil.convertArrayToJson(recipeDTO.getIngredients()));
         }
         if (recipeDTO.getDirections() != null) {
-            recipe.setDirections(RecipeMapper.convertArrayToJson(recipeDTO.getDirections()));
+            recipe.setDirections(JsonConversionUtil.convertArrayToJson(recipeDTO.getDirections()));
         }
         if (recipeDTO.getLink() != null) {
             recipe.setLink(recipeDTO.getLink());
         }
-        if (recipeDTO.getSource() != null) {
-            recipe.setSource(recipeDTO.getSource());
-        }
-        if (recipeDTO.getNer() != null) {
-            recipe.setNer(RecipeMapper.convertArrayToJson(recipeDTO.getNer()));
+        if (recipeDTO.getNutrition() != null) {
+            recipe.setNutrition(JsonConversionUtil.convertArrayToJson(recipeDTO.getNutrition()));
         }
 
         recipeDAO.saveRecipe(recipe);
@@ -155,16 +144,6 @@ public class RecipeServiceImpl implements RecipeService {
         RecipeDTO updatedRecipeDTO = recipeMapper.toDto(recipe);
         return Result.success(updatedRecipeDTO);
     }
-
-//    @Override
-//    public Result<List<RecipeDTO>> getAllRecipes() {
-//        List<Recipe> recipes = recipeDAO.findAllRecipes();
-//        List<RecipeDTO> recipeDTOs = recipes.stream()
-//                .map(recipeMapper::toDto)
-//                .collect(Collectors.toList());
-//        return Result.success(recipeDTOs);
-//    }
-
 
     @Override
     public Result<PageResult> getAllRecipes(RecipePageQueryDTO queryDTO) {
@@ -174,9 +153,4 @@ public class RecipeServiceImpl implements RecipeService {
         PageResult pageResult = new PageResult(total, recipeDTOs);
         return Result.success(pageResult);
     }
-
-
-
-
-
 }

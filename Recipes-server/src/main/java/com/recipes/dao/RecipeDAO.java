@@ -36,6 +36,7 @@ public class RecipeDAO {
             entityManager.remove(recipe);
         }
     }
+
     @Transactional
     public void deleteRecipe(Recipe recipe) {
         entityManager.remove(recipe);
@@ -50,7 +51,7 @@ public class RecipeDAO {
 
     public List<Recipe> findPopularRecipes() {
         String sql = "SELECT r.* " +
-                "FROM Recipe r " +
+                "FROM Recipes r " +
                 "LEFT JOIN (SELECT l.recipe_id, COUNT(l.user_id) as likes FROM `Like` l GROUP BY l.recipe_id) l ON r.id = l.recipe_id " +
                 "LEFT JOIN (SELECT c.recipe_id, COUNT(c.id) as comments FROM Comment c GROUP BY c.recipe_id) c ON r.id = c.recipe_id " +
                 "ORDER BY l.likes DESC, c.comments DESC";

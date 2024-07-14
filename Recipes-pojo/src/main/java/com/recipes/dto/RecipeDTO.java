@@ -32,15 +32,16 @@ public class RecipeDTO implements Serializable {
     @Schema(description = "Link to the recipe")
     private String link;
 
-    @Schema(description = "Source of the recipe", required = true)
-    private String source;
+    @Schema(description = "Preparation time in minutes", required = true)
+    private int minutes;
 
-    @Schema(description ="NER (Named Entity Recognition) tags", required = true)
-    private String[] ner;
-
+    @Schema(description = "User ID", required = true)
     private Long userId;
+
+    @Schema(description = "Nutrition information", required = true)
+    private String[] nutrition;
 
     private String createTime;
 
     private String updateTime;
-    }
+}
