@@ -1,6 +1,5 @@
 package com.recipes.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-/**
- * RecipePageQueryDTO represents the data transfer object for transferring recipe page query parameters.
- */
 @Data
 @Builder(toBuilder = true)
 @NoArgsConstructor

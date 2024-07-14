@@ -1,3 +1,4 @@
+// Comment.java
 package com.recipes.entity;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +26,9 @@ public class Comment implements Serializable {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
+
+    @Column(nullable = false)
+    private int rating;
 
     @Column(name = "create_time", nullable = false, updatable = false)
     private LocalDateTime createTime;

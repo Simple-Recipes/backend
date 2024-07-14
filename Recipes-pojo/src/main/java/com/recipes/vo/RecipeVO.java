@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -21,9 +22,9 @@ public class RecipeVO implements Serializable {
     private String[] ingredients;
     private String[] directions;
     private String link;
-    private String source;
-    private String[] ner;
+    private int minutes;
     private Long userId;
+    private String[] nutrition;
     private String createTime;
     private String updateTime;
 }

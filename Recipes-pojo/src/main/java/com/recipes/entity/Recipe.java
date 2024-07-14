@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Recipe")
+@Table(name = "Recipes")
 public class Recipe implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,16 +33,19 @@ public class Recipe implements Serializable {
     @Column(nullable = false, columnDefinition = "JSON")
     private String directions;
 
+    @Column(nullable = false, length = 1024)
     private String link;
 
-    private String source;
-
-    @Column(nullable = false, columnDefinition = "JSON")
-    private String ner;
+    @Column(nullable = false)
+    private int minutes;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Column(name = "nutrition",  columnDefinition = "JSON")
+    private String nutrition;
+
 
     @Column(name = "create_time", nullable = false, updatable = false)
     private LocalDateTime createTime;
@@ -52,15 +55,6 @@ public class Recipe implements Serializable {
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
-
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Like> likes;
-
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Favorite> favorites;
-
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecipeTag> recipeTags;
 
     @PrePersist
     protected void onCreate() {
@@ -72,5 +66,4 @@ public class Recipe implements Serializable {
     protected void onUpdate() {
         this.updateTime = LocalDateTime.now();
     }
-
 }

@@ -36,7 +36,7 @@ public class RecipeController {
      * 清理缓存数据
      * @param pattern
      */
-    private void cleanCache(String pattern){
+    private void cleanCache(String pattern) {
         Set keys = redisTemplate.keys(pattern);
         redisTemplate.delete(keys);
     }
@@ -52,7 +52,6 @@ public class RecipeController {
         if (recipeDTO != null) {
             // 如果存在，直接返回，无须查询数据库
             return Result.success(recipeDTO);
-
         }
 
         // 如果不存在，查询数据库
@@ -68,12 +67,9 @@ public class RecipeController {
         return result;
     }
 
-
-
     @GetMapping("/popular")
     @Operation(summary = "Get popular recipes", description = "Get a list of popular recipes based on likes and comments")
     public Result<PageResult> getPopularRecipes() {
-
         log.info("Getting popular recipes");
         return recipeService.getPopularRecipes();
     }
@@ -107,7 +103,6 @@ public class RecipeController {
         return recipeService.getUserRecipes(userId);
     }
 
-
     @DeleteMapping("/delete")
     @Operation(summary = "Delete a recipe", description = "Deletes a published recipe")
     public Result<Void> deleteRecipe(
@@ -119,8 +114,6 @@ public class RecipeController {
         //将所有的缓存数据清理掉
         String key = "recipe_" + recipeId;
         cleanCache(key);
-
-
 
         return recipeService.deleteRecipe(userId, recipeId);
     }
@@ -170,7 +163,4 @@ public class RecipeController {
         RecipePageQueryDTO queryDTO = new RecipePageQueryDTO(page, size, null);
         return recipeService.getAllRecipes(queryDTO);
     }
-
-
-
 }

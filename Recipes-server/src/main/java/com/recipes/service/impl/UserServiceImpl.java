@@ -1,8 +1,13 @@
 package com.recipes.service.impl;
 
+import cn.hutool.core.util.RandomUtil;
 import com.recipes.constant.RedisConstants;
 import com.recipes.dao.UserDAO;
-import com.recipes.dto.*;
+import com.recipes.dto.UserDTO;
+import com.recipes.dto.UserLoginWithCodeDTO;
+import com.recipes.dto.UserLoginWithPasswordDTO;
+import com.recipes.dto.UserProfileUpdateDTO;
+import com.recipes.dto.UserRegisterDTO;
 import com.recipes.entity.User;
 import com.recipes.exception.AccountNotFoundException;
 import com.recipes.exception.PasswordErrorException;
@@ -12,16 +17,10 @@ import com.recipes.result.Result;
 import com.recipes.service.UserService;
 import com.recipes.utils.JwtUtil;
 import com.recipes.utils.UserHolder;
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
-import cn.hutool.core.lang.UUID;
-import cn.hutool.core.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
-import jakarta.servlet.http.HttpSession;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -36,7 +35,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
 
-
     @Autowired
     private StringRedisTemplate redisTemplate;
 
@@ -50,7 +48,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO register(UserRegisterDTO userRegisterDTO) {
-
         User user = User.builder()
                 .username(userRegisterDTO.getUsername())
                 .password(userRegisterDTO.getPassword())  // Plain text password, should be hashed in real-world applications
@@ -59,7 +56,7 @@ public class UserServiceImpl implements UserService {
                 .createTime(LocalDateTime.now())
                 .build();
         userDAO.saveUser(user);
-        return toDTO(user);
+        return userMapper.toDto(user);
     }
 
     @Transactional
@@ -78,12 +75,7 @@ public class UserServiceImpl implements UserService {
             throw new PasswordErrorException("Password error");
         }
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setUsername(user.getUsername());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setAvatar(user.getAvatar());
-        userDTO.setCreateTime(user.getCreateTime().toString());
+        UserDTO userDTO = userMapper.toDto(user);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("user_id", userDTO.getId());
@@ -130,12 +122,7 @@ public class UserServiceImpl implements UserService {
             throw new AccountNotFoundException("Account not found");
         }
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setUsername(user.getUsername());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setAvatar(user.getAvatar());
-        userDTO.setCreateTime(user.getCreateTime().toString());
+        UserDTO userDTO = userMapper.toDto(user);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("user_id", userDTO.getId());
@@ -160,7 +147,6 @@ public class UserServiceImpl implements UserService {
 
         return userDTO;
     }
-
 
     @Override
     public void sendCode(String email) {
@@ -188,7 +174,7 @@ public class UserServiceImpl implements UserService {
         if (userId != null) {
             User user = userDAO.findUserById(userId);
             if (user != null) {
-                return toDTO(user);
+                return userMapper.toDto(user);
             } else {
                 throw new AccountNotFoundException("User not found");
             }
@@ -196,11 +182,10 @@ public class UserServiceImpl implements UserService {
         throw new AccountNotFoundException("User not logged in");
     }
 
-
     @Override
     public UserDTO getUserById(Long id) {
         User user = userDAO.findUserById(id);
-        return user != null ? toDTO(user) : null;
+        return user != null ? userMapper.toDto(user) : null;
     }
 
     @Override
@@ -248,20 +233,4 @@ public class UserServiceImpl implements UserService {
             throw new AccountNotFoundException("Invalid reset token");
         }
     }
-
-    private UserDTO toDTO(User user) {
-        String avatar = user.getAvatar();
-        if (avatar == null || avatar.isEmpty()) {
-            avatar = DEFAULT_AVATAR_URL;
-        }
-
-        return UserDTO.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .avatar(avatar)
-                .createTime(user.getCreateTime().toString())
-                .build();
-    }
-
 }

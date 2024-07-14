@@ -42,8 +42,15 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/admin/login");
 
         registry.addInterceptor(jwtTokenUserInterceptor)
-                .addPathPatterns("/user/**", "/recipes/**", "/favorites/**","/comments/**","/likes/**","/tags/**")
-                .excludePathPatterns("/user/loginWithPassword", "/user/loginWithCode","/user/sendCode","/user/register","/user/forgotPassword","/user/resetPassword");
+                .addPathPatterns("/user/**", "/recipes/**", "/favorites/**","/comments/**","/likes/**","/tags/**","/recommendation/**")
+                .excludePathPatterns(
+                        "/user/loginWithPassword",
+                        "/user/loginWithCode",
+                        "/user/sendCode",
+                        "/user/register",
+                        "/user/forgotPassword",
+                        "/user/resetPassword"
+                );
     }
 
     @Override
@@ -54,8 +61,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .allowedHeaders("*")
                 .exposedHeaders("Authorization")
                 .allowCredentials(true);
-    };
-
+    }
 
     /**
      * Generate API documentation using Knife4j

@@ -53,6 +53,9 @@ logging:
         controller: info
         repository: info
 
+python:
+  script:
+    path: 'Recipes-server/src/main/java/com/recipes/pythonScripts/recommendation.py'
 
 recipes:
   jwt:
