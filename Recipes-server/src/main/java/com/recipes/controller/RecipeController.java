@@ -21,7 +21,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/recipes")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:8081", "http://localhost:3000"})
 @Slf4j
 @Tag(name = "Recipe API", description = "Operations related to recipes")
 public class RecipeController {
