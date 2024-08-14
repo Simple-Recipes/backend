@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tags")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:8082", "http://localhost:3000"})
 @Slf4j
 @Tag(name = "Tag API", description = "Operations related to tags")
 public class TagController {

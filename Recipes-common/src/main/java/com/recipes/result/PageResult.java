@@ -13,10 +13,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageResult implements Serializable {
+public class PageResult<T> implements Serializable {
 
-    private long total; ///Total number of records
+    private long total; // Total number of records
 
-    private List records; //Current page data collection
+    private List<T> records; // Current page data collection
 
 }

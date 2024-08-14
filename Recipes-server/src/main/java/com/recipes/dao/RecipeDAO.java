@@ -132,4 +132,72 @@ public class RecipeDAO {
         TypedQuery<Long> query = entityManager.createQuery(jpql, Long.class);
         return query.getSingleResult();
     }
+
+    public List<Recipe> findPopularRecipesByTag(String tag) {
+        String jpql = "SELECT r FROM Recipe r " +
+                "JOIN RecipeTag rt ON r.id = rt.recipe.id " +
+                "JOIN Tag t ON rt.tag.id = t.id " +
+                "WHERE t.name = :tag";
+
+        TypedQuery<Recipe> query = entityManager.createQuery(jpql, Recipe.class);
+        query.setParameter("tag", tag);
+
+        List<Recipe> recipes = query.getResultList();
+
+        recipes.sort((r1, r2) -> {
+            long r1Likes = countLikes(r1.getId());
+            long r1Comments = countComments(r1.getId());
+            long r2Likes = countLikes(r2.getId());
+            long r2Comments = countComments(r2.getId());
+
+            if (r2Likes != r1Likes) {
+                return Long.compare(r2Likes, r1Likes);
+            } else {
+                return Long.compare(r2Comments, r1Comments);
+            }
+        });
+
+        return recipes.size() > 10 ? recipes.subList(0, 10) : recipes;
+    }
+
+    private long countLikes(Long recipeId) {
+        String jpql = "SELECT COUNT(l) FROM Like l WHERE l.recipe.id = :recipeId";
+        TypedQuery<Long> query = entityManager.createQuery(jpql, Long.class);
+        query.setParameter("recipeId", recipeId);
+        return query.getSingleResult();
+    }
+
+    private long countComments(Long recipeId) {
+        String jpql = "SELECT COUNT(c) FROM Comment c WHERE c.recipe.id = :recipeId";
+        TypedQuery<Long> query = entityManager.createQuery(jpql, Long.class);
+        query.setParameter("recipeId", recipeId);
+        return query.getSingleResult();
+    }
+    public List<Recipe> findPopularRecipesByTagWithPagination(String tag, int page, int pageSize) {
+        String jpql = "SELECT r FROM Recipe r " +
+                "JOIN RecipeTag rt ON r.id = rt.recipe.id " +
+                "JOIN Tag t ON rt.tag.id = t.id " +
+                "WHERE t.name = :tag " +
+                "ORDER BY (SELECT COUNT(l.id) FROM Like l WHERE l.recipe.id = r.id) DESC";
+
+        TypedQuery<Recipe> query = entityManager.createQuery(jpql, Recipe.class);
+        query.setParameter("tag", tag);
+
+        return query.setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
+    public long countSearchRecipesByTag(String tag) {
+        String jpql = "SELECT COUNT(r) FROM Recipe r " +
+                "JOIN RecipeTag rt ON r.id = rt.recipe.id " +
+                "JOIN Tag t ON rt.tag.id = t.id " +
+                "WHERE t.name = :tag";
+
+        TypedQuery<Long> query = entityManager.createQuery(jpql, Long.class);
+        query.setParameter("tag", tag);
+
+        return query.getSingleResult();
+    }
+
+
 }

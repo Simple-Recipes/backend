@@ -1,5 +1,6 @@
 package com.recipes.service.impl;
 
+import com.recipes.dao.LikeDAO;
 import com.recipes.dao.RecipeDAO;
 import com.recipes.dao.UserDAO;
 import com.recipes.dto.RecipeDTO;
@@ -12,6 +13,7 @@ import com.recipes.result.Result;
 import com.recipes.service.RecipeService;
 import com.recipes.utils.JsonConversionUtil;
 import com.recipes.utils.UserHolder;
+import com.recipes.vo.RecipeSimpleVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private LikeDAO likeDAO;
+
 
     @Autowired
     private RecipeMapper recipeMapper;
@@ -153,4 +159,29 @@ public class RecipeServiceImpl implements RecipeService {
         PageResult pageResult = new PageResult(total, recipeDTOs);
         return Result.success(pageResult);
     }
+
+    @Override
+    public Result<PageResult> getPopularRecipesByTag(String tag) {
+        List<Recipe> recipes = recipeDAO.findPopularRecipesByTag(tag);
+        List<RecipeDTO> recipeDTOs = recipes.stream().map(recipeMapper::toDto).collect(Collectors.toList());
+        PageResult pageResult = new PageResult(recipeDTOs.size(), recipeDTOs);
+        return Result.success(pageResult);
+    }
+
+
+    @Override
+    public Result<PageResult<RecipeSimpleVO>> getPopularRecipesByTag(String tag, int page, int pageSize) {
+        List<RecipeSimpleVO> recipes = recipeDAO.findPopularRecipesByTagWithPagination(tag, page, pageSize)
+                .stream()
+                .map(recipe -> recipeMapper.toSimpleVO(recipe, likeDAO)) // 确保传递 LikeDAO 实例
+                .collect(Collectors.toList());
+
+        long total = recipeDAO.countSearchRecipesByTag(tag);
+
+        PageResult<RecipeSimpleVO> pageResult = new PageResult<>(total, recipes);
+
+        return Result.success(pageResult);
+    }
+
+
 }

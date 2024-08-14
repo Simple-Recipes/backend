@@ -42,7 +42,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/admin/login");
 
         registry.addInterceptor(jwtTokenUserInterceptor)
-                .addPathPatterns("/user/**", "/recipes/**", "/favorites/**","/comments/**","/likes/**","/tags/**","/recommendation/**")
+                .addPathPatterns("/user/**", "/recipes/**", "/favorites/**", "/comments/**", "/likes/**", "/tags/**", "/recommendation/**")
                 .excludePathPatterns(
                         "/user/loginWithPassword",
                         "/user/loginWithCode",
@@ -56,8 +56,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // 你的前端地址
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedOrigins("http://localhost:3000", "http://localhost:8082") // 允许两个前端地址
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .exposedHeaders("Authorization")
                 .allowCredentials(true);
@@ -71,7 +71,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     public Docket defaultApi2() {
         String groupName = "2.X Version";
         Docket docket = new Docket(DocumentationType.OAS_30)
-                .host("localhost:8080")
+                .host("localhost:8085")
                 .apiInfo(apiInfo())
                 .groupName(groupName)
                 .select()
@@ -86,7 +86,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .title("Recipes API Documentation")
                 .version("2.9.2")
                 .description("Recipes API Documentation")
-                .termsOfServiceUrl("http://localhost:8080/")
+                .termsOfServiceUrl("http://localhost:8085/")
                 .build();
     }
 

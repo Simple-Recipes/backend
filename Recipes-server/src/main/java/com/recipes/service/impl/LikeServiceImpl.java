@@ -89,7 +89,7 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public Result<Integer> getRecipeLikes(Long recipeId) {
-        int likes = likeDAO.countLikesByRecipeId(recipeId);
+        int likes = (int) likeDAO.countLikesByRecipeId(recipeId);
         return Result.success(likes);
     }
 

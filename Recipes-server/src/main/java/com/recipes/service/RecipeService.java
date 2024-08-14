@@ -4,6 +4,7 @@ import com.recipes.dto.RecipeDTO;
 import com.recipes.dto.RecipePageQueryDTO;
 import com.recipes.result.PageResult;
 import com.recipes.result.Result;
+import com.recipes.vo.RecipeSimpleVO;
 
 import java.util.List;
 
@@ -26,4 +27,7 @@ public interface RecipeService {
     Result<RecipeDTO> editRecipe(Long userId, RecipeDTO recipeDTO);
 
     Result<PageResult> getAllRecipes(RecipePageQueryDTO queryDTO);
+
+    Result<PageResult> getPopularRecipesByTag(String tag);
+    Result<PageResult<RecipeSimpleVO>> getPopularRecipesByTag(String tag, int page, int pageSize);
 }

@@ -5,6 +5,7 @@ import com.recipes.result.PageResult;
 import com.recipes.result.Result;
 import com.recipes.service.RecipeService;
 import com.recipes.utils.UserHolder;
+import com.recipes.vo.RecipeSimpleVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -21,7 +22,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/recipes")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:8082", "http://localhost:3000"})
 @Slf4j
 @Tag(name = "Recipe API", description = "Operations related to recipes")
 public class RecipeController {
@@ -72,6 +73,17 @@ public class RecipeController {
     public Result<PageResult> getPopularRecipes() {
         log.info("Getting popular recipes");
         return recipeService.getPopularRecipes();
+    }
+
+
+    @GetMapping("/tag/popular")
+    @Operation(summary = "Get popular recipes by tag with pagination", description = "Get a list of popular recipes based on likes and comments for a specific tag with pagination")
+    public Result<PageResult<RecipeSimpleVO>> getPopularRecipesByTag(
+            @Parameter(description = "Tag name", required = true) @RequestParam String tag,
+            @Parameter(description = "Page number", required = true) @RequestParam int page,
+            @Parameter(description = "Number of records per page", required = true) @RequestParam int pageSize) {
+
+        return recipeService.getPopularRecipesByTag(tag, page, pageSize);
     }
 
     @GetMapping("/search")

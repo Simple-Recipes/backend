@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Slf4j
-@SpringBootApplication()
+@SpringBootApplication
 //@EnableJpaRepositories(basePackages = "com.recipes.repository")
 @EntityScan(basePackages = "com.recipes.entity")
 @EnableTransactionManagement // 开启注解方式的事务管理
