@@ -82,7 +82,7 @@ public class RecipeController {
             @Parameter(description = "Tag name", required = true) @RequestParam String tag,
             @Parameter(description = "Page number", required = true) @RequestParam int page,
             @Parameter(description = "Number of records per page", required = true) @RequestParam int pageSize) {
-
+        log.info("Request received for tag: {}, page: {}, pageSize: {}", tag, page, pageSize);  // 添加日志
         return recipeService.getPopularRecipesByTag(tag, page, pageSize);
     }
 
