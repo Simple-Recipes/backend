@@ -13,6 +13,7 @@ public class Result<T> implements Serializable {
     private String msg; //Error message
     private T data; //Data
 
+
     public static <T> Result<T> success() {
         Result<T> result = new Result<T>();
         result.code = 1;
@@ -29,7 +30,9 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> error(String msg) {
+
         Result<T> result = new Result<T>();
+
         result.msg = msg;
         result.code = 0;
         return result;

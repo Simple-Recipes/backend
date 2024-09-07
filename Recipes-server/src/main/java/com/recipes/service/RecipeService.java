@@ -6,6 +6,8 @@ import com.recipes.entity.Recipe;
 import com.recipes.result.PageResult;
 import com.recipes.result.Result;
 import org.springframework.web.bind.annotation.PathVariable;
+import com.recipes.vo.RecipeSimpleVO;
+
 
 import java.util.List;
 
@@ -29,7 +31,12 @@ public interface RecipeService {
 
     Result<PageResult> getAllRecipes(RecipePageQueryDTO queryDTO);
 
+
     //Result queryRecipeByUserId(Long id);
 
+
+
+    Result<PageResult> getPopularRecipesByTag(String tag);
+    Result<PageResult<RecipeSimpleVO>> getPopularRecipesByTag(String tag, int page, int pageSize);
 
 }

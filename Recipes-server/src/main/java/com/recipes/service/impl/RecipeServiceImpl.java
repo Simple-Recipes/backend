@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.recipes.aop.CacheClient;
+import com.recipes.dao.LikeDAO;
 import com.recipes.dao.RecipeDAO;
 import com.recipes.dao.UserDAO;
 import com.recipes.dto.RecipeDTO;
@@ -19,14 +20,13 @@ import com.recipes.utils.JsonConversionUtil;
 import com.recipes.utils.RedisData;
 import com.recipes.utils.UserHolder;
 import jakarta.annotation.Resource;
+import com.recipes.vo.RecipeSimpleVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
 import jakarta.servlet.http.HttpSession;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -46,6 +46,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private LikeDAO likeDAO;
+
 
     @Autowired
     private RecipeMapper recipeMapper;
@@ -203,20 +207,29 @@ public class RecipeServiceImpl implements RecipeService {
         return Result.success(pageResult);
     }
 
+
+
 //    @Override
-//    public Result queryRecipeByUserId(Long id) {
-//        Recipe recipe = recipeDAO.findRecipeById(id);
-//        if (recipe == null) {
-//            return Result.error("Recipe is not logged in");
-//        }
-//        Long userId = recipe.getUser().getId();
-//        //recipe.setUser;
+//    public Result<PageResult> getPopularRecipesByTag(String tag) {
+//        List<Recipe> recipes = recipeDAO.findPopularRecipesByTag(tag);
+//        List<RecipeDTO> recipeDTOs = recipes.stream().map(recipeMapper::toDto).collect(Collectors.toList());
+//        PageResult pageResult = new PageResult(recipeDTOs.size(), recipeDTOs);
+//        return Result.success(pageResult);
+//    }
+
+
+//    @Override
+//    public Result<PageResult<RecipeSimpleVO>> getPopularRecipesByTag(String tag, int page, int pageSize) {
+//        List<RecipeSimpleVO> recipes = recipeDAO.findPopularRecipesByTagWithPagination(tag, page, pageSize)
+//                .stream()
+//                .map(recipe -> recipeMapper.toSimpleVO(recipe, likeDAO)) // 确保传递 LikeDAO 实例
+//                .collect(Collectors.toList());
 //
-//        User user = userDAO.findUserById(userId);
-//        if (user == null) {
-//            return Result.error("User not found");
-//        }
-//        return null;
+//        long total = recipeDAO.countSearchRecipesByTag(tag);
+//
+//        PageResult<RecipeSimpleVO> pageResult = new PageResult<>(total, recipes);
+//
+//        return Result.success(pageResult);
 //    }
 
 

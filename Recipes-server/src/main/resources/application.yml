@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8085
 
 spring:
   profiles:
@@ -11,6 +11,11 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+    cors:
+      allowed-origins: "http://localhost:8082"
+      allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+      allowed-headers: "Content-Type,Authorization"
+      allow-credentials: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${recipes.datasource.host}:${recipes.datasource.port}/${recipes.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
