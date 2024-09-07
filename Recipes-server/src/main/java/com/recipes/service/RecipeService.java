@@ -32,7 +32,6 @@ public interface RecipeService {
     Result<PageResult> getAllRecipes(RecipePageQueryDTO queryDTO);
 
 
-    //Result queryRecipeByUserId(Long id);
 
 
 
