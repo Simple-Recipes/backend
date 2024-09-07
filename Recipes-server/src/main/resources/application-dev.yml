@@ -3,9 +3,9 @@ recipes:
     driver-class-name: com.mysql.cj.jdbc.Driver
     host: localhost
     port: 3306
-    database: simulaterecipes
+    database: eat
     username: root
-    password: Macair0313
+    password: cscscs61B1234
     #    url: jdbc:mysql://localhost:3306/simulaterecipes?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
 
   redis:

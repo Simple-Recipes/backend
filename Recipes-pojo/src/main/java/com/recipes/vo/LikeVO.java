@@ -15,6 +15,7 @@ import java.io.Serializable;
 @Schema(description = "Like view object")
 public class LikeVO implements Serializable {
 
+    @Schema(description ="User ID")
     private Long userId;
     private Long recipeId;
 }

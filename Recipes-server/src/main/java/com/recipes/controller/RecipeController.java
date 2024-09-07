@@ -22,7 +22,8 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/recipes")
-@CrossOrigin(origins = {"http://localhost:8082", "http://localhost:3000"})
+@CrossOrigin(origins = {"http://localhost:8081", "http://localhost:3000","http://localhost:8082"})
+
 @Slf4j
 @Tag(name = "Recipe API", description = "Operations related to recipes")
 public class RecipeController {
@@ -30,43 +31,23 @@ public class RecipeController {
     @Autowired
     private RecipeService recipeService;
 
-    @Autowired
-    private RedisTemplate redisTemplate;
 
-    /**
-     * 清理缓存数据
-     * @param pattern
-     */
-    private void cleanCache(String pattern) {
-        Set keys = redisTemplate.keys(pattern);
-        redisTemplate.delete(keys);
-    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get recipe details", description = "Get the details of a specific recipe")
     public Result<RecipeDTO> getRecipeDetails(@PathVariable("id") Long id) {
-        // 构造redis中的key，规则：recipe_ + id
-        String key = "recipe_" + id;
 
-        // 查询redis中是否存在菜品数据
-        RecipeDTO recipeDTO = (RecipeDTO) redisTemplate.opsForValue().get(key);
-        if (recipeDTO != null) {
-            // 如果存在，直接返回，无须查询数据库
-            return Result.success(recipeDTO);
-        }
-
-        // 如果不存在，查询数据库
-        log.info("Getting details for recipe with id={}", id);
         Result<RecipeDTO> result = recipeService.getRecipeDetails(id);
-
-        // 将查询到的数据放入redis中
-        if (result != null && result.getCode() != null && result.getCode() == 1) {
-            redisTemplate.opsForValue().set(key, result.getData());
-        }
 
         // 返回查询结果
         return result;
     }
+
+//    @GetMapping("user/{id}")
+//    public Result queryRecipeByUserId(@PathVariable("id") Long id){
+//        return recipeService.queryRecipeByUserId(id);
+//    }
+
 
     @GetMapping("/popular")
     @Operation(summary = "Get popular recipes", description = "Get a list of popular recipes based on likes and comments")
@@ -123,10 +104,6 @@ public class RecipeController {
         Long userId = UserHolder.getUser().getId();
         log.info("Deleting recipe: userId={}, recipeId={}", userId, recipeId);
 
-        //将所有的缓存数据清理掉
-        String key = "recipe_" + recipeId;
-        cleanCache(key);
-
         return recipeService.deleteRecipe(userId, recipeId);
     }
 
@@ -155,9 +132,6 @@ public class RecipeController {
             }
 
             Result<RecipeDTO> result = recipeService.editRecipe(userId, recipeDTO);
-            // 删除Redis缓存
-            String key = "recipe_" + recipeDTO.getId();
-            cleanCache(key);
 
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {

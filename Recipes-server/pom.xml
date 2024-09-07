@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-<!--            <scope>compile</scope>-->
+            <!--            <scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -193,16 +193,16 @@
             <scope>test</scope>
         </dependency>
 
-<!--        &lt;!&ndash; H2 Database for testing &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.h2database</groupId>-->
-<!--            <artifactId>h2</artifactId>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.h2database</groupId>-->
-<!--            <artifactId>h2</artifactId>-->
-<!--        </dependency>-->
+        <!--        &lt;!&ndash; H2 Database for testing &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.h2database</groupId>-->
+        <!--            <artifactId>h2</artifactId>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.h2database</groupId>-->
+        <!--            <artifactId>h2</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
@@ -229,16 +229,16 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>sonatype-snapshots</id>-->
-<!--            <name>Sonatype Snapshot Repository</name>-->
-<!--            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--            </snapshots>-->
-<!--        </repository>-->
-<!--    </repositories>-->
+    <!--    <repositories>-->
+    <!--        <repository>-->
+    <!--            <id>sonatype-snapshots</id>-->
+    <!--            <name>Sonatype Snapshot Repository</name>-->
+    <!--            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
+    <!--            <snapshots>-->
+    <!--                <enabled>true</enabled>-->
+    <!--            </snapshots>-->
+    <!--        </repository>-->
+    <!--    </repositories>-->
 
     <build>
         <plugins>
