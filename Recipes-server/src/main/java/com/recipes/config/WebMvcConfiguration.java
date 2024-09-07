@@ -6,18 +6,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
-
-import java.util.List;
 
 /**
  * Configuration class to register web layer related components
@@ -46,7 +44,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/admin/login");
 
         registry.addInterceptor(jwtTokenUserInterceptor)
-                .addPathPatterns("/user/**", "/recipes/**", "/favorites/**","/comments/**","/likes/**","/tags/**","/recommendation/**")
+                .addPathPatterns("/user/**", "/recipes/**", "/favorites/**", "/comments/**", "/likes/**", "/tags/**", "/recommendation/**")
                 .excludePathPatterns(
                         "/user/loginWithPassword",
                         "/user/loginWithCode",
@@ -60,8 +58,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // 你的前端地址
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedOrigins("http://localhost:3000", "http://localhost:8082") // 允许两个前端地址
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .exposedHeaders("Authorization")
                 .allowCredentials(true);
@@ -75,7 +73,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     public Docket defaultApi2() {
         String groupName = "2.X Version";
         Docket docket = new Docket(DocumentationType.OAS_30)
-                .host("localhost:8080")
+                .host("localhost:8085")
                 .apiInfo(apiInfo())
                 .groupName(groupName)
                 .select()
@@ -90,7 +88,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .title("Recipes API Documentation")
                 .version("2.9.2")
                 .description("Recipes API Documentation")
-                .termsOfServiceUrl("http://localhost:8080/")
+                .termsOfServiceUrl("http://localhost:8085/")
                 .build();
     }
 
@@ -115,6 +113,4 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
-
-
 }

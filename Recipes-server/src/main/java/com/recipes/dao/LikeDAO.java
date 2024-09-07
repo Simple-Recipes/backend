@@ -32,7 +32,7 @@ public class LikeDAO {
         return entityManager.find(Like.class, likeId);
     }
 
-    public int countLikesByRecipeId(Long recipeId) {
+    public long countLikesByRecipeId(Long recipeId) {
         String query = "SELECT COUNT(l) FROM Like l WHERE l.recipe.id = :recipeId";
         return ((Number) entityManager.createQuery(query)
                 .setParameter("recipeId", recipeId)

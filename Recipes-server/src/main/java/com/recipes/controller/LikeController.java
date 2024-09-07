@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/likes")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:8082", "http://localhost:3000"})
 @Slf4j
 @Tag(name = "Like API", description = "Operations related to likes")
 public class LikeController {

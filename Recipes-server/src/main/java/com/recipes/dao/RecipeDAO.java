@@ -132,4 +132,20 @@ public class RecipeDAO {
         TypedQuery<Long> query = entityManager.createQuery(jpql, Long.class);
         return query.getSingleResult();
     }
+
+    public Long findUserIdByRecipeId(Long recipeId) {
+        String jpql = "SELECT r.user.id FROM Recipe r WHERE r.id = :recipeId";
+        return entityManager.createQuery(jpql, Long.class)
+                .setParameter("recipeId", recipeId)
+                .getSingleResult();
+    }
+
+    public String findTitleById(Long recipeId) {
+        String jpql = "SELECT r.title FROM Recipe r WHERE r.id = :recipeId";
+        return entityManager.createQuery(jpql, String.class)
+                .setParameter("recipeId", recipeId)
+                .getSingleResult();
+    }
+
+
 }

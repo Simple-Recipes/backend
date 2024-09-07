@@ -43,4 +43,12 @@ public class CommentDAO {
                 .setParameter("userId", userId)
                 .getResultList();
     }
+
+    public Long findRecipeCreatorId(Long recipeId) {
+        return entityManager.createQuery(
+                        "SELECT r.user.id FROM Recipe r WHERE r.id = :recipeId",
+                        Long.class)
+                .setParameter("recipeId", recipeId)
+                .getSingleResult();
+    }
 }
