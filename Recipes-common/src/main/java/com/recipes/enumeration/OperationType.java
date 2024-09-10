@@ -6,12 +6,12 @@ package com.recipes.enumeration;
 public enum OperationType {
 
     /**
-     * 更新操作
+     * UPDATES operation
      */
     UPDATE,
 
     /**
-     * 插入操作
+     * INSERT operation
      */
     INSERT
 

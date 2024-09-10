@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * 全局异常处理器，处理项目中抛出的业务异常
+ * Handling exceptions globally
  */
 @RestControllerAdvice
 @Slf4j

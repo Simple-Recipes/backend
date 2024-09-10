@@ -18,7 +18,7 @@ public class ProcessUtils {
                 output.append(line);
             }
             while ((line = errorReader.readLine()) != null) {
-                System.err.println(line);  // 打印错误信息到控制台
+                System.err.println(line);  // Print errors
             }
             p.waitFor();
         } catch (Exception e) {

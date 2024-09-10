@@ -18,7 +18,7 @@ spring:
       allow-credentials: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${recipes.datasource.host}:${recipes.datasource.port}/${recipes.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    url: ${recipes.datasource.url}
     username: ${recipes.datasource.username}
     password: ${recipes.datasource.password}
   jpa:

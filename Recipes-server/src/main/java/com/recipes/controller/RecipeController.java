@@ -125,7 +125,7 @@ public class RecipeController {
         log.info("Editing recipe: userId={}, recipeDTO={}", userId, recipeDTO);
 
         try {
-            // 验证当前用户是否为食谱的发布者
+            // Validate if the user is the owner of the recipe
             if (!recipeService.isRecipeOwner(userId, recipeDTO.getId())) {
                 log.error("User {} is not the owner of recipe {}", userId, recipeDTO.getId());
                 return new ResponseEntity<>(Result.error("You do not have permission to edit this recipe"), HttpStatus.FORBIDDEN);

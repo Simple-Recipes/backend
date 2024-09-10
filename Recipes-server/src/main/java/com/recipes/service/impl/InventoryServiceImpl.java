@@ -118,38 +118,6 @@ public class InventoryServiceImpl implements InventoryService {
         return inventory != null && inventory.getUser().getId().equals(userId);
     }
 
-//    @Override
-//    @Transactional
-//    public Result<RecipeDTO> editInventory(Long userId, InventoryDTO inventoryDTO) {
-//        Inventory inventory = inventoryDAO.findInventoryById(inventoryDTO.getId());
-//
-//        if (inventory == null || !inventory.getUser().getId().equals(userId)) {
-//            return Result.error("Recipe not found or you do not have permission to edit this recipe");
-//        }
-//
-//        // Update only the fields that are provided in the DTO
-//        if (inventoryDTO.getItemName() != null) {
-//            inventory.setItemName(inventoryDTO.getItemName());
-//        }
-//        if (inventoryDTO.getQuantity() != null) {
-//            inventory.setQuantity(inventoryDTO.getQuantity());
-//        }
-//
-//        if (inventoryDTO.getUnit() != null) {
-//            inventory.setUnit(inventoryDTO.getUnit());
-//
-//        }
-//
-//        inventoryDAO.saveInventory(inventory);
-//        InventoryDTO up
-//
-//
-//        recipeDAO.saveRecipe(recipe);
-//
-//        RecipeDTO updatedRecipeDTO = recipeMapper.toDto(recipe);
-//        return Result.success(updatedRecipeDTO);
-//    }
-
 
 
 }

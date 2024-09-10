@@ -45,7 +45,7 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
             Claims claims = JwtUtil.parseJWT(userSecretKey, token);
             Long userId = Long.valueOf(claims.get("user_id").toString());
 
-            // 从 Redis 中获取用户信息
+            // Get the information of the user from Redis
             String userKey = RedisConstants.LOGIN_USER_KEY + token;
             Map<Object, Object> userMap = redisTemplate.opsForHash().entries(userKey);
             if (userMap.isEmpty()) {
@@ -59,10 +59,10 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
             userDTO.setEmail((String) userMap.get("email"));
             userDTO.setAvatar((String) userMap.get("avatar"));
 
-            // 将用户信息存储到 WebSocket 会话中
+            // Storage the user information in the WebSocket session attributes
             attributes.put("user", userDTO);
 
-            // 刷新 token 有效期
+            // Refresh the expiration time of the user information in Redis
             redisTemplate.expire(userKey, userTtl, TimeUnit.MILLISECONDS);
 
             return true;
@@ -74,6 +74,6 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
 
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception ex) {
-        // 这里可以选择不做任何操作
+
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin")
-@CrossOrigin(origins = {"http://localhost:8081", "http://localhost:3000"})
+@CrossOrigin(origins = {"http://localhost:8082", "http://localhost:3000"})
 @Slf4j
 @Tag(name = "Admin API", description = "Admin related operations")
 public class AdminController {

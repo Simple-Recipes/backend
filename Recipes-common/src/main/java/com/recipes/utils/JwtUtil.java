@@ -46,23 +46,23 @@ public class JwtUtil {
      */
     public static Claims parseJWT(String secretKey, String token) {
         try {
-            // 打印接收到的token
+            // Print the received token
             System.out.println("Received token: " + token);
 
             Claims claims = Jwts.parser()
                     .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
                     .parseClaimsJws(token).getBody();
 
-            // 打印解析结果
+            // Print the claims
             System.out.println("Token claims: " + claims);
 
             return claims;
         } catch (ExpiredJwtException e) {
-            // 处理token过期异常
+            // Handling expired tokens
             System.out.println("Token has expired");
             throw e;
         } catch (Exception e) {
-            // 处理其他解析异常
+            // Handling exception
             System.out.println("Token is invalid: " + e.getMessage());
             throw e;
         }

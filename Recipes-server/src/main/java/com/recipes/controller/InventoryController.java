@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/inventory")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:8082", "http://localhost:3000"})
 @Slf4j
 @Tag(name = "Inventory API", description = "Operations related to inventory management")
 public class InventoryController {
@@ -36,9 +36,9 @@ public class InventoryController {
         if (userId == null) {
             return Result.error("User is not logged in");
         }
-//        inventoryDTO.setUserId(userId);
-//        inventoryDTO.setCreatedAt(LocalDateTime.now());
-//        inventoryDTO.setUpdatedAt(LocalDateTime.now());
+        inventoryDTO.setUserId(userId);
+        inventoryDTO.setCreatedAt(LocalDateTime.now());
+        inventoryDTO.setUpdatedAt(LocalDateTime.now());
         log.info("Adding inventory item: {}", inventoryDTO);
         return inventoryService.addInventory(inventoryDTO);
     }

@@ -5,6 +5,6 @@ package com.recipes.constant;
  */
 public class PasswordConstant {
 
-    public static final String DEFAULT_PASSWORD = "password123";
+    public static final String DEFAULT_PASSWORD = "Password123";
 
 }

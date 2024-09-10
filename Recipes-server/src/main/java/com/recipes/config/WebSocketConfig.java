@@ -27,7 +27,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
                 .addInterceptors(handshakeInterceptor);
 
         registry.addHandler(notificationHandler, "/ws/notification/*")
-                .setAllowedOrigins("http://localhost:3000") // 你的前端地址
+                .setAllowedOrigins("http://localhost:8082") // 你的前端地址
                 .addInterceptors(handshakeInterceptor);
     }
 }
