@@ -161,11 +161,5 @@ This project was developed by the following contributors:
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-```
 
-### Key Changes:
-1. **Sensitive Information Hidden**: The database and Redis credentials are stored in environment variables, not in the code.
-2. **Environment Variables**: You should now configure your `.env` file or environment settings to hold sensitive information like passwords.
-3. **Documentation Updated**: Instructions have been updated to reflect this security improvement.
 
-Make sure to add your `.env` file to your `.gitignore` so it isn't pushed to GitHub. Let me know if you need further changes!
