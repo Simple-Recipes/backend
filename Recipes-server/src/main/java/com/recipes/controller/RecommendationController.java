@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/recommendation")
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5000","http://localhost:8082"})
+@CrossOrigin(origins = "*")
 @Tag(name = "Recommendation API", description = "Operations related to recipe recommendations")
 public class RecommendationController {
     @Autowired

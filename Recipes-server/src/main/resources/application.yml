@@ -12,7 +12,7 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
     cors:
-      allowed-origins: "http://localhost:8082"
+      allowed-origins: "*"
       allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
       allowed-headers: "Content-Type,Authorization"
       allow-credentials: true

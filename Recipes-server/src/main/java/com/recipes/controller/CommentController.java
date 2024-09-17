@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/comments")
-@CrossOrigin(origins = {"http://localhost:8082", "http://localhost:3000"})
+@CrossOrigin(origins = "*")
 @Slf4j
 @Tag(name = "Comment API", description = "Operations related to comments")
 public class CommentController {

@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/notification")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @Slf4j
 @Tag(name = "Notification API", description = "Operations related to notifications")
 public class NotificationController {

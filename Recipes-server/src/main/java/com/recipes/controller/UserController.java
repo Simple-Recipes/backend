@@ -25,8 +25,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = {"http://localhost:8081", "http://localhost:3000","http://localhost:8082"})
-
+@CrossOrigin(origins = "*")
 @Slf4j
 @Tag(name = "User API", description = "User related operations")
 public class UserController {

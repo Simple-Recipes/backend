@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/inventory")
-@CrossOrigin(origins = {"http://localhost:8082", "http://localhost:3000"})
+@CrossOrigin(origins = "*")
 @Slf4j
 @Tag(name = "Inventory API", description = "Operations related to inventory management")
 public class InventoryController {

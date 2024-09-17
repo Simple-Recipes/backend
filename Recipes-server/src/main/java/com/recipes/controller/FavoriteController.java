@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/favorites")
-@CrossOrigin(origins = {"http://localhost:8082", "http://localhost:3000"})
+@CrossOrigin(origins = "*")
 @Slf4j
 @Tag(name = "Favorite API", description = "Operations related to favorites")
 public class FavoriteController {
