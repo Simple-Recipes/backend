@@ -1,4 +1,3 @@
-
 # Recipe Management System - Backend
 
 This is the backend service of the Recipe Management System, developed using **Spring Boot**. It provides RESTful APIs for managing user authentication, recipes, meal plans, shopping lists, and personalized recommendations. This service interacts with a MySQL database (via AWS RDS) and uses Redis for caching (via AWS ElastiCache).
@@ -51,23 +50,17 @@ Key functionalities include:
    cd backend
    ```
 
-2. **Configure database settings**:  
-   Update the following configurations in `application.properties` with your RDS and Redis credentials:
+2. **Configure environment variables**:  
+   Use environment variables to store sensitive data like database credentials. Create a `.env` file or set them directly in your environment.
 
+   In the `application.properties`, reference these environment variables:
    ```properties
-   recipes:
-     datasource:
-       driver-class-name: com.mysql.cj.jdbc.Driver
-       host: recipes-rds-1.cluq6g4cqy61.eu-west-1.rds.amazonaws.com
-       url: jdbc:mysql://recipes-rds-1.cluq6g4cqy61.eu-west-1.rds.amazonaws.com:3306/simulaterecipes
-       port: 3306
-       database: simulaterecipes
-       username: admin
-       password: Password1234
-     redis:
-       host: recipes-redis-s1a59u.serverless.euw1.cache.amazonaws.com:6379
-       port: 6379
-       # password: <your-redis-password>
+   spring.datasource.url=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+   spring.datasource.username=${DB_USERNAME}
+   spring.datasource.password=${DB_PASSWORD}
+
+   spring.redis.host=${REDIS_HOST}
+   spring.redis.port=${REDIS_PORT}
    ```
 
 3. **Build and Run**:
@@ -168,4 +161,11 @@ This project was developed by the following contributors:
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+```
 
+### Key Changes:
+1. **Sensitive Information Hidden**: The database and Redis credentials are stored in environment variables, not in the code.
+2. **Environment Variables**: You should now configure your `.env` file or environment settings to hold sensitive information like passwords.
+3. **Documentation Updated**: Instructions have been updated to reflect this security improvement.
+
+Make sure to add your `.env` file to your `.gitignore` so it isn't pushed to GitHub. Let me know if you need further changes!
