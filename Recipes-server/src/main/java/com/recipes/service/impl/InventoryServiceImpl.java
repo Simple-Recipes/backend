@@ -55,7 +55,6 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Result<List<InventoryDTO>> getUserInventories(Long userId) {
-        log.info(String.valueOf(userId));
         List<Inventory> inventories = inventoryDAO.findInventoriesByUserId(userId);
         List<InventoryDTO> inventoryDTOs = inventories.stream()
                 .map(inventoryMapper::toDto)

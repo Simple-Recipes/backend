@@ -209,28 +209,28 @@ public class RecipeServiceImpl implements RecipeService {
 
 
 
-//    @Override
-//    public Result<PageResult> getPopularRecipesByTag(String tag) {
-//        List<Recipe> recipes = recipeDAO.findPopularRecipesByTag(tag);
-//        List<RecipeDTO> recipeDTOs = recipes.stream().map(recipeMapper::toDto).collect(Collectors.toList());
-//        PageResult pageResult = new PageResult(recipeDTOs.size(), recipeDTOs);
-//        return Result.success(pageResult);
-//    }
+    @Override
+    public Result<PageResult> getPopularRecipesByTag(String tag) {
+        List<Recipe> recipes = recipeDAO.findPopularRecipesByTag(tag);
+        List<RecipeDTO> recipeDTOs = recipes.stream().map(recipeMapper::toDto).collect(Collectors.toList());
+        PageResult pageResult = new PageResult(recipeDTOs.size(), recipeDTOs);
+        return Result.success(pageResult);
+    }
 
 
-//    @Override
-//    public Result<PageResult<RecipeSimpleVO>> getPopularRecipesByTag(String tag, int page, int pageSize) {
-//        List<RecipeSimpleVO> recipes = recipeDAO.findPopularRecipesByTagWithPagination(tag, page, pageSize)
-//                .stream()
-//                .map(recipe -> recipeMapper.toSimpleVO(recipe, likeDAO)) // 确保传递 LikeDAO 实例
-//                .collect(Collectors.toList());
-//
-//        long total = recipeDAO.countSearchRecipesByTag(tag);
-//
-//        PageResult<RecipeSimpleVO> pageResult = new PageResult<>(total, recipes);
-//
-//        return Result.success(pageResult);
-//    }
+    @Override
+    public Result<PageResult<RecipeSimpleVO>> getPopularRecipesByTag(String tag, int page, int pageSize) {
+        List<RecipeSimpleVO> recipes = recipeDAO.findPopularRecipesByTagWithPagination(tag, page, pageSize)
+                .stream()
+                .map(recipe -> recipeMapper.toSimpleVO(recipe, likeDAO)) // 确保传递 LikeDAO 实例
+                .collect(Collectors.toList());
+
+        long total = recipeDAO.countSearchRecipesByTag(tag);
+
+        PageResult<RecipeSimpleVO> pageResult = new PageResult<>(total, recipes);
+
+        return Result.success(pageResult);
+    }
 
 
 }

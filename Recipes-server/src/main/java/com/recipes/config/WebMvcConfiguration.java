@@ -44,7 +44,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/admin/login");
 
         registry.addInterceptor(jwtTokenUserInterceptor)
-                .addPathPatterns("/user/**", "/recipes/**", "/favorites/**", "/comments/**", "/likes/**", "/tags/**", "/recommendation/**")
+                .addPathPatterns("/user/**", "/recipes/**", "/favorites/**", "/comments/**", "/likes/**", "/tags/**", "/recommendation/**","/inventory/**","/list/**")
                 .excludePathPatterns(
                         "/user/loginWithPassword",
                         "/user/loginWithCode",
@@ -88,7 +88,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .title("Recipes API Documentation")
                 .version("2.9.2")
                 .description("Recipes API Documentation")
-                .termsOfServiceUrl("http://localhost:8085/")
+                .termsOfServiceUrl("http://localhost:8080/")
                 .build();
     }
 

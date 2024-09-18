@@ -3,6 +3,7 @@ package com.recipes.controller;
 
 import com.recipes.dto.InventoryDTO;
 import com.recipes.dto.RecipeDTO;
+import com.recipes.dto.UserDTO;
 import com.recipes.result.Result;
 import com.recipes.service.InventoryService;
 import com.recipes.utils.UserHolder;
@@ -32,13 +33,14 @@ public class InventoryController {
     @PostMapping("/add")
     @Operation(summary = "Add an inventory item", description = "Add a new inventory item for the logged-in user")
     public Result<InventoryDTO> addInventory(@RequestBody InventoryDTO inventoryDTO) {
-        Long userId = UserHolder.getUser().getId();
-        if (userId == null) {
+        UserDTO user = UserHolder.getUser();
+        if (user == null) {
             return Result.error("User is not logged in");
         }
-//        inventoryDTO.setUserId(userId);
-//        inventoryDTO.setCreatedAt(LocalDateTime.now());
-//        inventoryDTO.setUpdatedAt(LocalDateTime.now());
+        Long userId = user.getId();
+        inventoryDTO.setUserId(userId);
+        inventoryDTO.setCreatedAt(LocalDateTime.now());
+        inventoryDTO.setUpdatedAt(LocalDateTime.now());
         log.info("Adding inventory item: {}", inventoryDTO);
         return inventoryService.addInventory(inventoryDTO);
     }
@@ -47,6 +49,9 @@ public class InventoryController {
     @Operation(summary = "Get user inventories", description = "Get a list of inventory items for a specific user")
     public Result<List<InventoryDTO>> getUserInventories() {
         Long userId = UserHolder.getUser().getId();
+        if (userId == null) {
+            return Result.error("User is not logged in");
+        }
         log.info("Getting inventory items for user with id={}", userId);
         return inventoryService.getUserInventories(userId);
     }
