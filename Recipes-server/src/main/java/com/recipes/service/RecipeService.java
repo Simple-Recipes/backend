@@ -32,6 +32,7 @@ public interface RecipeService {
     Result<PageResult> getAllRecipes(RecipePageQueryDTO queryDTO);
 
 
+
     Result<PageResult> getPopularRecipesByTag(String tag);
     Result<PageResult<RecipeSimpleVO>> getPopularRecipesByTag(String tag, int page, int pageSize);
 

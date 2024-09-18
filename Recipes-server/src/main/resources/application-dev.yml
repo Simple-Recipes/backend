@@ -1,16 +1,14 @@
 recipes:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    host: localhost
+    host: recipes-rds-1.cluq6g4cqy61.eu-west-1.rds.amazonaws.com
+    url: jdbc:mysql://recipes-rds-1.cluq6g4cqy61.eu-west-1.rds.amazonaws.com:3306/simulaterecipes
     port: 3306
-    database: eat
-    username: root
-    password: cscscs61B1234
-    #    url: jdbc:mysql://localhost:3306/simulaterecipes?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    database: simulaterecipes
+    username: admin
+    password: Password1234
 
   redis:
-    host: 127.0.0.1
+    host: recipes-redis-s1a59u.serverless.euw1.cache.amazonaws.com:6379
     port: 6379
-
-
-
+    # password: <your-redis-password>

@@ -187,7 +187,7 @@ def filter_recipes_by_preferences(KB_df, preferences):
 def calculate_and_sort_scores(KB_df, preference, nutritional_preferences=None):
     try:
         C = KB_df['mean_rating'].mean()
-        m = KB_df['number_of_ratings'].quantile(0.8)
+        m = KB_df['number_of_ratings'].quantile(0.9)
         q_recipes = KB_df.loc[KB_df['number_of_ratings'] >= m]
         if not q_recipes.empty:
             q_recipes = q_recipes.copy()
@@ -202,14 +202,15 @@ def calculate_and_sort_scores(KB_df, preference, nutritional_preferences=None):
 
 def calculate_score(recipe, C, m, preference, nutritional_preferences=None):
     try:
+        score = 0  # 用来存储计算出来的分数
+
         if preference == '4':
-            return (recipe['number_of_ratings'] / (recipe['number_of_ratings'] + m) * recipe['mean_rating']) + (m / (m + recipe['number_of_ratings']) * C)
+            score = (recipe['number_of_ratings'] / (recipe['number_of_ratings'] + m) * recipe['mean_rating']) + (m / (m + recipe['number_of_ratings']) * C)
         elif preference == '5':
-            return -recipe['calories'] + (recipe['number_of_ratings'] / (recipe['number_of_ratings'] + m) * recipe['mean_rating']) + (m / (m + recipe['number_of_ratings']) * C)
+            score = -recipe['calories'] + (recipe['number_of_ratings'] / (recipe['number_of_ratings'] + m) * recipe['mean_rating']) + (m / (m + recipe['number_of_ratings']) * C)
         elif preference == '6':
-            return recipe['calories'] + (recipe['number_of_ratings'] / (recipe['number_of_ratings'] + m) * recipe['mean_rating']) + (m / (m + recipe['number_of_ratings']) * C)
+            score = recipe['calories'] + (recipe['number_of_ratings'] / (recipe['number_of_ratings'] + m) * recipe['mean_rating']) + (m / (m + recipe['number_of_ratings']) * C)
         elif preference == '7' and nutritional_preferences:
-            score = 0
             for pref in nutritional_preferences:
                 nutrient, condition = [part.strip() for part in pref.split('(')]
                 condition = condition[:-1]
@@ -219,11 +220,16 @@ def calculate_score(recipe, C, m, preference, nutritional_preferences=None):
                         score += -recipe[column_name] + (recipe['number_of_ratings'] / (recipe['number_of_ratings'] + m) * recipe['mean_rating']) + (m / (m + recipe['number_of_ratings']) * C)
                     elif condition == 'high':
                         score += recipe[column_name] + (recipe['number_of_ratings'] / (recipe['number_of_ratings'] + m) * recipe['mean_rating']) + (m / (m + recipe['number_of_ratings']) * C)
-            return score
-        return 0
+
+
+        # 打印调试信息，查看计算的每个部分
+        print(f"Recipe ID: {recipe['recipe_id']}, Score: {score}, Number of Ratings: {recipe['number_of_ratings']}, Mean Rating: {recipe['mean_rating']}, Calories: {recipe['calories']}, m: {m}, C: {C}", file=sys.stderr)
+
+        return score
     except Exception as e:
         print(f"Error calculating score: {e}", file=sys.stderr)
         return 0
+
 
 def collaborative_filtering(comments_df):
     try:

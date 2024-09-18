@@ -22,8 +22,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/recipes")
-@CrossOrigin(origins = {"http://localhost:8081", "http://localhost:3000","http://localhost:8082"})
-
+@CrossOrigin(origins = "*")
 @Slf4j
 @Tag(name = "Recipe API", description = "Operations related to recipes")
 public class RecipeController {
@@ -63,7 +62,7 @@ public class RecipeController {
             @Parameter(description = "Tag name", required = true) @RequestParam String tag,
             @Parameter(description = "Page number", required = true) @RequestParam int page,
             @Parameter(description = "Number of records per page", required = true) @RequestParam int pageSize) {
-
+        log.info("Request received for tag: {}, page: {}, pageSize: {}", tag, page, pageSize);  // 添加日志
         return recipeService.getPopularRecipesByTag(tag, page, pageSize);
     }
 
@@ -125,7 +124,7 @@ public class RecipeController {
         log.info("Editing recipe: userId={}, recipeDTO={}", userId, recipeDTO);
 
         try {
-            // 验证当前用户是否为食谱的发布者
+            // Validate if the user is the owner of the recipe
             if (!recipeService.isRecipeOwner(userId, recipeDTO.getId())) {
                 log.error("User {} is not the owner of recipe {}", userId, recipeDTO.getId());
                 return new ResponseEntity<>(Result.error("You do not have permission to edit this recipe"), HttpStatus.FORBIDDEN);

@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), claims);
         log.info("JWT token: {}", token);
 
-        // 将用户信息存储到 Redis 中，使用 token 作为键
+        // Store the token
         String userKey = RedisConstants.LOGIN_USER_KEY + token;
         redisTemplate.opsForHash().put(userKey, "id", userDTO.getId().toString());
         redisTemplate.opsForHash().put(userKey, "username", userDTO.getUsername());
@@ -91,14 +91,14 @@ public class UserServiceImpl implements UserService {
         redisTemplate.expire(userKey, jwtProperties.getUserTtl(), TimeUnit.MILLISECONDS);
         log.info("User info stored in Redis: {}", userKey);
 
-        // 保存 token 和 userId 的映射关系
+        // Save the token and the information
         redisTemplate.opsForValue().set(RedisConstants.LOGIN_USER_TOKEN_KEY + token, userDTO.getId().toString(), jwtProperties.getUserTtl(), TimeUnit.MILLISECONDS);
 
-        // 保存用户信息到 ThreadLocal
+        // Save the user information to ThreadLocal
         UserHolder.saveUser(userDTO);
         log.info("User info stored in ThreadLocal: {}", userDTO);
 
-        // 设置 token 到 UserDTO 中
+        // Set the token to the userDTO
         userDTO.setToken(token);
         log.info("UserDTO with token: {}", userDTO);
 

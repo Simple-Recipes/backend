@@ -37,19 +37,19 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Result<CommentDTO> commentOnRecipe(CommentDTO commentDTO) {
-        // 将 CommentDTO 转换为 Comment 实体
+        // Convert the comment to an entity object and return
         Comment comment = commentMapper.toEntity(commentDTO);
 
-        // 保存评论
+        // Save the comment
         commentDAO.saveComment(comment);
 
-//        // 获取食谱创建者的ID
+//        // Get the recipient ID
 //        Long recipientId = recipeDAO.findUserIdByRecipeId(comment.getRecipe().getId());
 //
-//        // 获取食谱标题
+//        // Get the recipe title
 //        String recipeTitle = recipeDAO.findTitleById(comment.getRecipe().getId());
 //
-//        // 创建通知
+//        // Create the recipe notification
 //        Notification notification = new Notification();
 //        notification.setRecipientId(recipientId);
 //        notification.setSenderId(comment.getUser().getId());
@@ -57,13 +57,13 @@ public class CommentServiceImpl implements CommentService {
 //        notification.setCommentId(comment.getId());
 //        notification.setMessage("User" + comment.getUser().getId() + " commented on your recipe: " + recipeTitle);
 //
-//        // 保存通知
+//        // Storage the notification
 //        notificationDAO.saveNotification(notification);
 //
-//        // 发送WebSocket通知
+//        // Send notification
 //        notificationHandler.sendNotification(notification.getMessage());
 
-        // 返回结果
+        // Return the notification
         return Result.success(commentMapper.toDto(comment));
     }
 

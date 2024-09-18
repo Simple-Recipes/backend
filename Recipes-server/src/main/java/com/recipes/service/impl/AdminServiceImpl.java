@@ -57,7 +57,7 @@ public class AdminServiceImpl implements AdminService {
         log.info("JWT token: {}", token);
 
 
-        // 设置 token 到 UserDTO 中
+        // Set the token in the AdminDTO
         adminDTO.setToken(token);
         log.info("AdminDTO with token: {}", adminDTO);
 

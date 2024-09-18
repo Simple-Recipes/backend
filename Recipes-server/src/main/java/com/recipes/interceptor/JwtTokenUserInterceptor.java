@@ -49,7 +49,7 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
             Long userId = Long.valueOf(claims.get("user_id").toString());
             log.info("Parsed userId from token: {}", userId);
 
-            // 从 Redis 中获取用户信息
+            // Get user information from Redis
             String userKey = RedisConstants.LOGIN_USER_KEY + token;
             Map<Object, Object> userMap = redisTemplate.opsForHash().entries(userKey);
             if (userMap.isEmpty()) {
@@ -64,10 +64,10 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
             userDTO.setEmail((String) userMap.get("email"));
             userDTO.setAvatar((String) userMap.get("avatar"));
 
-            // 将用户信息存储到 ThreadLocal 中
+            // Store user information in the UserHolder
             UserHolder.saveUser(userDTO);
 
-            // 刷新 token 有效期
+            // Refresh the TTL of the user information in Redis
             redisTemplate.expire(userKey, jwtProperties.getUserTtl(), TimeUnit.MILLISECONDS);
 
             return true;
