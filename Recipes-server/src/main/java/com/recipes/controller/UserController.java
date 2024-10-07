@@ -111,12 +111,38 @@ public class UserController {
         return Result.success(updatedUserDTO);
     }
 
+    // @PostMapping("/forgotPassword")
+    // @Operation(summary = "forgot Password")
+    // public Result<?> requestPasswordReset(@RequestBody Map<String, String> request) {
+    //     log.info("Request password reset.");
+    //     userService.requestPasswordReset(request.get("email"));
+    //     return Result.success();
+    // }
+
+    // @PostMapping("/resetPassword")
+    // @Operation(summary = "Reset password")
+    // @Parameters({
+    //         @Parameter(name = "token", description = "Reset token", required = true, in = ParameterIn.HEADER),
+    //         @Parameter(name = "newPassword", description = "New password", required = true, in = ParameterIn.QUERY)
+    // })
+    // public Result<?> resetPassword(@RequestParam("newPassword") String newPassword, @RequestHeader("User-Token") String token) {
+    //     log.info("Reset password.");
+    //     userService.resetPassword(token, newPassword);
+    //     return Result.success();
+    }
     @PostMapping("/forgotPassword")
-    @Operation(summary = "forgot Password")
+    @Operation(summary = "Request password reset")
     public Result<?> requestPasswordReset(@RequestBody Map<String, String> request) {
-        log.info("Request password reset.");
-        userService.requestPasswordReset(request.get("email"));
-        return Result.success();
+        String email = request.get("email");
+        log.info("Requesting password reset for email: {}", email);
+
+        try {
+            cognitoService.sendForgotPasswordCode(email);  // 使用 CognitoService 发送密码重置邮件
+            return Result.success("Password reset link has been sent to your email.");
+        } catch (Exception e) {
+            log.error("Error sending password reset email: ", e);
+            return Result.error("Failed to send password reset link.");
+        }
     }
 
     @PostMapping("/resetPassword")
@@ -126,8 +152,13 @@ public class UserController {
             @Parameter(name = "newPassword", description = "New password", required = true, in = ParameterIn.QUERY)
     })
     public Result<?> resetPassword(@RequestParam("newPassword") String newPassword, @RequestHeader("User-Token") String token) {
-        log.info("Reset password.");
-        userService.resetPassword(token, newPassword);
-        return Result.success();
-    }
+        log.info("Resetting password with token.");
+
+        try {
+            cognitoService.confirmForgotPassword(token, newPassword);  // 使用 CognitoService 验证重置密码
+            return Result.success("Password has been reset successfully.");
+        } catch (Exception e) {
+            log.error("Error resetting password: ", e);
+            return Result.error("Failed to reset password.");
+        }
 }
