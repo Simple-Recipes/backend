@@ -3,8 +3,8 @@ services:
     image: "mysql:latest"
     container_name: mysql-container
     environment:
-      - MYSQL_ROOT_PASSWORD=Macair0313
-      - MYSQL_PASSWORD=Macair0313
+      - MYSQL_ROOT_PASSWORD=your_password
+      - MYSQL_PASSWORD=your_password
       - MYSQL_DATABASE=simulaterecipes
     ports:
       - "3307:3306"
@@ -26,7 +26,7 @@ services:
       - recipes.datasource.username=root
       - recipes.datasource.host=db
       - recipes.datasource.database=simulaterecipes
-      - recipes.datasource.password=Macair0313
+      - recipes.datasource.password=your_password
       - recipes.datasource.port=3306
     depends_on:
       db:
